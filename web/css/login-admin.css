@@ -1,0 +1,96 @@
+﻿body {
+    background-color:#0B9444;
+}
+html{
+    font-family: "Arial";
+}
+#contenido{
+    text-align: center;
+    alignment-adjust: central;
+    width:900px;
+    height:400px;
+    margin-left:auto;
+    margin-right:auto;
+}
+
+img{
+    margin-top:40px;
+    margin-left:272px;
+    width:355px;
+    height:90px;
+}
+
+section#creadores{
+
+    float:right;
+}
+section#creadores a {
+    padding-left: 15px;
+    padding-right: 13px;
+    color:white;
+    text-decoration:none;
+}
+
+
+label{
+    text-align: left;
+}
+
+input{
+    padding-top: 10px;
+    height: 5px;
+}
+
+form{
+    alignment-adjust: central;
+    display: inline-table;
+    padding-top: 50px;
+    padding-bottom: 50px;
+}
+
+input{
+    margin:10px; 
+}
+
+input.textfield{
+    height:15px;
+    width:200px;
+}
+
+input.button{
+    height:30px;
+    width:100px;
+}
+
+p{
+    font-size:20px;
+}
+
+#botones{
+    margin-top:25px;
+    margin-left:250px;
+}
+#botones article{
+
+    height:30px;
+    width:125px;
+    background-color:blue;
+    text-decoration:none;
+    color:white;
+    border:1px solid white;
+    display:inline-block;
+    border-radius:5px;
+
+}
+#botones article p{
+    font-size:20px;
+    text-align:center;
+    margin-top:5px;
+}
+
+article#b{
+    margin-left:105px;
+}
+
+
+

@@ -1,0 +1,22 @@
+﻿
+div#contenido p, div#contenido p2{
+    color:black;
+    line-height:24px;
+    font-size:19px;
+    padding-top:24px;
+    padding-left:50px;
+    padding-right:70px;
+    text-align:center;
+}
+
+div#contenido p2 {
+     padding-top:24px;
+        text-align:center;
+}
+
+div#contenido h1, div#contenido h2{
+    color:#13A89E;
+    text-align:center;
+    font-size:32px;
+    padding-top:60px;
+}
