@@ -5,9 +5,11 @@ import org.itver.evalpro.dao.AbstractFactory;
 import org.itver.evalpro.dao.AdministradorDAO;
 import org.itver.evalpro.dao.CarreraDAO;
 import org.itver.evalpro.dao.DAOFactory;
+import org.itver.evalpro.dao.MaestroDAO;
 import org.itver.evalpro.dao.MateriaDAO;
 import org.itver.evalpro.dto.Administrador;
 import org.itver.evalpro.dto.Carrera;
+import org.itver.evalpro.dto.Maestro;
 import org.itver.evalpro.dto.Materia;
 
 /**
@@ -17,7 +19,7 @@ import org.itver.evalpro.dto.Materia;
 public class ServicioPersistencia {
 //    private final ComentarioDAO   comentarioDAO;
     private final CarreraDAO carreraDAO;
-//    private final MaestroDAO      maestroDAO;
+    private final MaestroDAO      maestroDAO;
     private final MateriaDAO materiaDAO;
     private final AdministradorDAO adminDAO;
 
@@ -26,6 +28,7 @@ public class ServicioPersistencia {
         carreraDAO  = factory.getCarreraDAO();
         materiaDAO  = factory.getMateriaDAO();
         adminDAO    = factory.getAdministradorDAO();
+        maestroDAO  = factory.getMaestroDAO();
     }
 
     //Servicios para la entidad carrera
@@ -73,6 +76,10 @@ public class ServicioPersistencia {
     public List<Materia> buscarTodasMateria() {
         return materiaDAO.buscarTodos();
     }
+    
+    public List<Materia> buscarMateriasPorMaestro(int idMaestro) {
+        return materiaDAO.buscarPorMaestro(idMaestro);
+    }
     //estás horny
 
     public List<Materia> buscarMateriasPorRango(int offset, int limite) {
@@ -108,4 +115,32 @@ public class ServicioPersistencia {
         return adminDAO.buscarPorRangos(offset, limite);
     }
     
+    //Servicios para profesores
+    public void persistirMaestro(Maestro m) {
+        maestroDAO.persistir(m);
+    }
+
+    public void actualizarMaestro(Maestro m) {
+        maestroDAO.actualizar(m);
+    }
+
+    public void eliminarMaestro(Maestro m) {
+        maestroDAO.eliminar(m);
+    }
+
+    public Maestro buscarMaestroPorId(int id) {
+        return maestroDAO.buscarPorId(id);
+    }
+
+    public List<Maestro> buscarMaestros() {
+        return maestroDAO.buscarTodos();
+    }
+
+    public List<Maestro> buscarMaestrosPorRango(int offset, int limite) {
+        return maestroDAO.buscarPorRangos(offset, limite);
+    }
+    
+    public List<Maestro> buscarMaestrosPorMateria(int idMateria){
+        return maestroDAO.buscarPorMateria(idMateria);
+    }
 }

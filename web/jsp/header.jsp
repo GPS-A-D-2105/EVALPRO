@@ -15,7 +15,7 @@
             <nav id="opciones_pagina">
                 <a href="${root}">Inicio</a>
                 <a href="${root}/acerca">Acerca</a>
-                <a href="${root}/jsp/admins.jsp">Administradores</a>
+                <a href="${root}/jsp/login-admin.jsp">Administradores</a>
             </nav>
             <section id="buscador">
                 <input type="search" id="search" placeholder="buscar..." autocomplete="on" border="1" />
@@ -26,8 +26,8 @@
         <nav>
             <a href="${root}/">Inicio</a>
             <a href="${root}/carrera">Carrera</a>
-            <a href="${root}/materias">Materias</a>
-            <a href="${root}/profesores">Profesores</a>
+            <a href="${root}/materia">Materias</a>
+            <a href="${root}/profesor">Profesores</a>
             <a href="${root}/mas">...</a>
         </nav>
     </div>

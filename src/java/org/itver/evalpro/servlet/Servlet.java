@@ -26,6 +26,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.itver.evalpro.dto.Administrador;
 import org.itver.evalpro.dto.Carrera;
+import org.itver.evalpro.dto.Maestro;
 import org.itver.evalpro.dto.Materia;
 import org.itver.evalpro.servicio.ServicioPersistencia;
 import org.jboss.logging.Logger;
@@ -62,7 +63,7 @@ public class Servlet extends HttpServlet {
             out.println("</html>");
         }
     }
-    
+
     protected void badAuthentication(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -94,32 +95,73 @@ public class Servlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String contextPath = request.getServletPath();
-        
         System.out.println("Atendiendo petición http mediante método GET");
         System.out.println(request.getRequestURI());
         RequestDispatcher dispatcher = null;
-        if (request.getRequestURI().contains("carrera")) {
-            System.out.println("Despachando petición de /carrera");
-            List<Carrera> carreras = new ServicioPersistencia().buscarTodasCarreras();
-            System.out.println("Carreras consultadas");
-            request.setAttribute("listaCarreras", carreras);
-            dispatcher = request.getRequestDispatcher("/jsp/carreras.jsp");
-        }else if(contextPath.contains("materias")){
-            System.out.println("Despachando petición de /materia");
-            String id = request.getParameter("idCarrera");
-            System.out.println("id = " + id);
-            int idCarrera = Integer.parseInt(id);
-            List<Materia> materias = new ServicioPersistencia().buscarMateriaPorCarrera(idCarrera);
-            request.setAttribute("listaMaterias", materias);
-            System.out.println("Redireccionando a materias.jsp");
-            dispatcher = request.getRequestDispatcher("/jsp/materias.jsp");
-        }else if(contextPath.contains("acerca")){
-            dispatcher = request.getRequestDispatcher("/jsp/acerca.jsp");
-        }else{
-            Logger.getLogger(Servlet.class).debug("No se encuentra el recurso solicitado");
-            processRequest(request, response);
+
+        switch (contextPath) {
+            case "/carrera":
+                System.out.println("Despachando petición de /carrera");
+                List<Carrera> carreras = new ServicioPersistencia().buscarTodasCarreras();
+                System.out.println("Carreras consultadas");
+                request.setAttribute("listaCarreras", carreras);
+                dispatcher = request.getRequestDispatcher("/jsp/carreras.jsp");
+                break;
+
+            case "/materia":
+                System.out.println("Despachando petición de /materia");
+                List<Materia> listaMaterias;
+                String id = request.getParameter("idCarrera");
+
+                if (id != null) {
+                    int idCarrera = Integer.parseInt(id);
+                    listaMaterias = new ServicioPersistencia().buscarMateriaPorCarrera(idCarrera);
+                } else {
+                    listaMaterias = new ServicioPersistencia().buscarTodasMateria();
+                }
+                request.setAttribute("listaMaterias", listaMaterias);
+                System.out.println("Redireccionando a materias.jsp");
+                dispatcher = request.getRequestDispatcher("/jsp/materias.jsp");
+                break;
+
+            case "/acerca":
+
+                dispatcher = request.getRequestDispatcher("/jsp/acerca.jsp");
+                break;
+
+            case "/profesor":
+
+                String sIdProf = request.getParameter("idMateria");
+                List<Maestro> listaMaestros;
+                if (sIdProf == null) {
+                    listaMaestros = new ServicioPersistencia().buscarMaestros();
+                } else {
+                    int idMateria = Integer.parseInt(sIdProf);
+                    listaMaestros = new ServicioPersistencia().buscarMaestrosPorMateria(idMateria);
+                    String sNombreMateria = request.getParameter("nombreMateria");
+                    request.setAttribute("nombreMateria", sNombreMateria);
+                    request.setAttribute("tipoConsulta", 1);
+                }
+                request.setAttribute("listaMaestros", listaMaestros);
+                dispatcher = request.getRequestDispatcher("/jsp/profesores.jsp");
+                break;
+
+            case "/profesor-info":
+                String nombreProfesor = request.getParameter("nombre");
+                String sIdMaestro = request.getParameter("id");
+                int idMaestro = Integer.parseInt(sIdMaestro);
+                ServicioPersistencia sp = new ServicioPersistencia();
+                List<Materia> materiasImpartidas = sp.buscarMateriasPorMaestro(idMaestro);
+                request.setAttribute("nombreProfesor", nombreProfesor);
+                request.setAttribute("materiasImpartidas", materiasImpartidas);
+                dispatcher = request.getRequestDispatcher("/jsp/profesor-info.jsp");
+                break;
+                
+            default:
+                Logger.getLogger(Servlet.class).debug("No se encuentra el recurso solicitado");
+                processRequest(request, response);
+                return;
         }
-        
         dispatcher.forward(request, response);
     }
 
@@ -135,13 +177,13 @@ public class Servlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         System.out.println("Atendiendo petición http mediante método POST");
-        
+
         String user = request.getParameter("user");
         String pass = request.getParameter("pass");
         System.out.println("user = " + user);
         System.out.println("pass = " + pass);
         Administrador admin = new ServicioPersistencia().buscarAdminPorId(user);
-        if(admin != null && admin.getPassword().equals(pass)){
+        if (admin != null && admin.getPassword().equals(pass)) {
             processRequest(request, response);
             return;
         }

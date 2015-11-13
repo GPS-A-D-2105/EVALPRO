@@ -23,7 +23,7 @@
             <h1>Selecciona una carrera</h1>
             <section id="carreras">
                 <c:forEach var="carrera" items="${listaCarreras}">
-                    <a href="${root}/materias?idCarrera=${carrera.id}">
+                    <a href="${root}/materia?idCarrera=${carrera.id}">
                         <article class="${colors[i]}">                            
                             <h3>${carrera.nombreCarrera}</h3>
                             <img src="${root}/${carrera.iconoUrl}" width="92" height="100"/>
