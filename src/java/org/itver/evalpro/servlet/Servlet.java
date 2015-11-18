@@ -18,6 +18,7 @@ package org.itver.evalpro.servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Date;
 import java.util.List;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -26,6 +27,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.itver.evalpro.dto.Administrador;
 import org.itver.evalpro.dto.Carrera;
+import org.itver.evalpro.dto.Comentario;
 import org.itver.evalpro.dto.Maestro;
 import org.itver.evalpro.dto.Materia;
 import org.itver.evalpro.servicio.ServicioPersistencia;
@@ -82,7 +84,6 @@ public class Servlet extends HttpServlet {
         }
     }
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
      *
@@ -147,16 +148,30 @@ public class Servlet extends HttpServlet {
                 break;
 
             case "/profesor-info":
+
                 String nombreProfesor = request.getParameter("nombre");
                 String sIdMaestro = request.getParameter("id");
                 int idMaestro = Integer.parseInt(sIdMaestro);
                 ServicioPersistencia sp = new ServicioPersistencia();
                 List<Materia> materiasImpartidas = sp.buscarMateriasPorMaestro(idMaestro);
+                List<Comentario> comentarios = sp.buscarMaestrosPorMaestro(idMaestro);
+                double[] califs = {0, 0, 0};
+
+                for (Comentario comentario : comentarios) {
+                    califs[0] += comentario.getCalifAsist();
+                    califs[1] += comentario.getCalifDomi();
+                    califs[2] += comentario.getCalifCalid();
+                }
+                califs[0] /= comentarios.size();
+                califs[1] /= comentarios.size();
+                califs[2] /= comentarios.size();
                 request.setAttribute("nombreProfesor", nombreProfesor);
                 request.setAttribute("materiasImpartidas", materiasImpartidas);
+                request.setAttribute("calificaciones", califs);
+                request.setAttribute("comentarios", comentarios);
                 dispatcher = request.getRequestDispatcher("/jsp/profesor-info.jsp");
                 break;
-                
+
             default:
                 Logger.getLogger(Servlet.class).debug("No se encuentra el recurso solicitado");
                 processRequest(request, response);
@@ -177,17 +192,46 @@ public class Servlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         System.out.println("Atendiendo petición http mediante método POST");
-
-        String user = request.getParameter("user");
-        String pass = request.getParameter("pass");
-        System.out.println("user = " + user);
-        System.out.println("pass = " + pass);
-        Administrador admin = new ServicioPersistencia().buscarAdminPorId(user);
-        if (admin != null && admin.getPassword().equals(pass)) {
-            processRequest(request, response);
-            return;
+        String contextPath = request.getServletPath();
+        System.out.println("contextPath = " + contextPath);
+        switch (contextPath) {
+            case "/login":
+                String user = request.getParameter("user");
+                String pass = request.getParameter("pass");
+                System.out.println("user = " + user);
+                System.out.println("pass = " + pass);
+                Administrador admin = new ServicioPersistencia().buscarAdminPorId(user);
+                if (admin != null && admin.getPassword().equals(pass)) {
+                    processRequest(request, response);
+                    return;
+                }
+                badAuthentication(request, response);
+                break;
+            case "/comentario":
+                String usuario = request.getParameter("usuario");
+                String contenido = request.getParameter("contenido-comentario");
+                System.out.println("usuario = " + usuario);
+                System.out.println("contenido = " + contenido);
+                break;
+            case "/alta-admin":
+                String noControl, nombre, apPaterno, apMaterno, email, password;
+                noControl = request.getParameter("no-control");
+                nombre = request.getParameter("nombre");
+                apPaterno = request.getParameter("ap-paterno");
+                apMaterno = request.getParameter("ap-materno");
+                email = request.getParameter("email");
+                password = request.getParameter("password");
+                System.out.println("noControl = " + noControl);
+                System.out.println("nombre = " + nombre);
+                System.out.println("apPaterno = " + apPaterno);
+                System.out.println("apMaterno = " + apMaterno);
+                System.out.println("email = " + email);
+                System.out.println("password = " + password);
+                Administrador admin_ = new Administrador(new Date().toString(), 1, nombre, apPaterno, apMaterno, password, noControl, email);
+                new ServicioPersistencia().persistirAdmin(admin_);
+                break;
         }
-        badAuthentication(request, response);
+
     }
 
     /**

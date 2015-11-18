@@ -11,154 +11,148 @@
         <title></title>
         <link href="${root}/css/principal.css" rel="stylesheet" />
         <link href="${root}/css/inicio.css" rel="stylesheet" />
-        <!--    <link rel="stylesheet" href="estilos.css"/>-->
-        <!--<link rel="stylesheet" href="fonts.css"/>-->
+        <link href="${root}/css/profesor-info.css" rel="stylesheet"/>
+        <link href="${root}/css/header.css" rel="stylesheet"/>
+        <script src="${root}/js/Chart.js"></script>
     </head>
     <body>
         <%@include file="header.jsp" %>
+        <div style="text-align: center; float: top">
+            <aside>
+                <div class="div-cabecera-caja">
+                    <header id="h-caja">
+                        <h3>Comentarios</h3>
+                    </header>
+                </div>
+                <section class="caja-comentarios">
+                    <c:forEach var="comentario" items="${comentarios}">
+                        <article class="cuadro-comentario">
+                            <table>
+                                <tr>
+                                    <td class="td-usuario" >${comentario.usuario}</td>
+                                    <td class="td-fecha">${comentario.registro}</td>
+                                </tr>
+                                <tr>
+                                    <td class="td-contenido">
+                                        <div class="div-contenido">
+                                            ${comentario.contenido}
+                                            asdasdasdasdasdasdasdadsasdasdasdasdasdasdasdadsasdasdasdasdasdasdasdads
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                        </article>
+                    </c:forEach>
+                    <article class="cuadro-comentario">
+                        <table>
+                            <tr>
+                                <td class="td-usuario" >USUARIO</td>
+                                <td class="td-fecha">FECHA</td>
+                            </tr>
+                            <tr>
+                                <td class="td-contenido">
+                                    <!--<div class="div-contenido">-->
+                                        CONTENIDOOOOOOOOOOOOOOOOOOOO y pues comento que no se que comentar respecto al maestro. Lorem ipsum dolor.
 
-        <div id="contenido">
+                                    <!--</div>-->
+                                </td>
+                            </tr>
+                        </table>
+                    </article>
+                    <article class="cuadro-comentario">
+                        <table>
+                            <tr>
+                                <td class="td-usuario" >USUARIO</td>
+                                <td class="td-fecha">FECHA</td>
+                            </tr>
+                            <tr>
+                                <td class="td-contenido">
+                                    <div class="div-contenido">
+                                        CONTENIDOOOOOOOOOOOOOOOOOOOO y pues comento que no se que comentar respecto al maestro. Lorem ipsum dolor.
+                                        CONTENIDOOOOOOOOOOOOOOOOOOOO y pues comento que no se que comentar respecto al maestro. Lorem ipsum dolor.
+                                        CONTENIDOOOOOOOOOOOOOOOOOOOO y pues comento que no se que comentar respecto al maestro. Lorem ipsum dolor.
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                    </article>
+                </section>
+                <section class="form-comentario">
+                    <form action="${root}/comentario" method="POST">
+                        <input class="input-nombre" name="usuario" type="text" placeholder="Escribe tu nombre..."/>
+                        <textarea name="contenido-comentario" placeholder="Escribe aquí tu comentario...">
+                        </textarea>
+                        <input class="input-enviar" type="submit" value="ENVIAR"/>
+                        <BR/>
+                    </form>
+                </section>
+            </aside>
 
-            <script src="Chart.js"></script>
-            <div id="canvas-holder">
-                <h4><font color="#2BB673">
-                        <form name="form1" method="post" action=""><h1 align="center"><font color="#2BB673">Estadisticas</h1>
-                        </form>
-                </h4>
-                <h4>&nbsp;</h4>
-                <h4>&nbsp;</h4>
-                <h4><font size="6">${nombreProfesor}</font></h4>
-                </h4>
-                <form name="form4" method="post" action="">
-                    <table width="341" height="427" border="0" align="right" id="panel">
-                        <tr>
-                            <td height="42" align="center" bgcolor="#2BB673"><div align="center"><font color="#000000">Comentarios</font></div></td>
-                        </tr>
-                        <tr>
-                            <td height="84" bgcolor="#CCCCCC"><table width="334" height="88" border="0">
-                                    <tr>
-                                        <td width="126" height="18" bgcolor="#FFFFFF"><font color="0F75BC">Usuario 1</font> </td>
-                                        <td width="167" bgcolor="#FFFFFF"><div align="right"><font color="8CC63F">27/10/2015</font></div></td>
-                                    </tr>
-                                    <tr>
-                                        <td height="18" colspan="2" bgcolor="#FFFFFF"><font color="#000000">No puedo hablar mal de ella porque me da servicio social :v</font></td>
-                                    </tr>
-                                </table>
-                                <table width="323" border="3">
-                                    <tr>
-                                    </tr>
-                                </table></td>
-                        </tr>
-                        <tr>
-                            <td bgcolor="#CCCCCC"><table width="334" height="88" border="0">
-                                    <tr>
-                                        <td width="126" height="18" bgcolor="#FFFFFF"><font color="0F75BC">Anonimo</font> </td>
-                                        <td width="167" bgcolor="#FFFFFF"><div align="right"><font color="8CC63F">17/10/2012</font></div></td>
-                                    </tr>
-                                    <tr>
-                                        <td height="18" colspan="2" bgcolor="#FFFFFF"><font color="#000000">En mi opinion personal mia de mi, opino que este profesor es bueno :v</font></td>
-                                    </tr>
-                                </table></td>
-                        </tr>
-                        <tr>
-                            <td bgcolor="#CCCCCC"><table width="334" height="88" border="0">
-                                    <tr>
-                                        <td width="126" height="18" bgcolor="#FFFFFF"><font color="0F75BC">Usuario 2</font></td>
-                                        <td width="167" bgcolor="#FFFFFF"><div align="right"><font color="8CC63F">10/10/2013</font></div></td>
-                                    </tr>
-                                    <tr>
-                                        <td height="18" colspan="2" bgcolor="#FFFFFF"><font color="#000000">En mi opinion personal mia de mi, opino que este profesor es bueno :v</font></td>
-                                    </tr>
-                                </table></td>
-                        </tr>
-                        <tr>
-                            <td bgcolor="#CCCCCC"><table width="334" height="88" border="0">
-                                    <tr>
-                                        <td width="126" height="18" bgcolor="#FFFFFF"><font color="0F75BC">Usuario 3</font></td>
-                                        <td width="167" bgcolor="#FFFFFF"><div align="right"><font color="8CC63F">8/07/2015</font></div></td>
-                                    </tr>
-                                    <tr>
-                                        <td height="18" colspan="2" bgcolor="#FFFFFF"><font color="#000000">En mi opinion personal mia de mi, opino que este profesor es bueno :v</font></td>
-                                    </tr>
-                                </table></td>
-                        </tr>
-                    </table>
-                </form>
-                <canvas id="chart-area2" width="200" height="200"></canvas>
-
-            </div>
-
-            <p><script>
-                var pieData = [{value: 10, color: "#8CC63F", highlight: "#0b82e7", label: "Asistencia"},
-                    {
-                        value: 30,
-                        color: "#13A89E",
-                        highlight: "#e3e860",
-                        label: "Dominio del tema"
-                    },
-                    {
-                        value: 20,
-                        color: "#0F75BC",
-                        highlight: "#b74865",
-                        label: "Calidad de enseñanza"
-                    },
-                ];
+            <main style="float: left;">
+                <section id="section-datos-estadisticos">
+                    <header>
+                        <h1 class="h-estadisticas">ESTADÍSITICAS DEL PROFESOR</h1>
+                        <h2>${nombreProfesor}</h2>
+                    </header>
+                    <div id="canvas-holder" style="float:left;">
+                        <canvas id="chart-area">
+                        </canvas>
+                        <script>
+                            var pieData = [
+                                {value: ${calificaciones[0]}, color: "#8CC63F", highlight: "#0b82e7", label: "Asistencia"},
+                                {
+                                    value: ${calificaciones[1]},
+                                    color: "#13A89E",
+                                    highlight: "#e3e860",
+                                    label: "Dominio del tema"
+                                },
+                                {
+                                    value: ${calificaciones[2]},
+                                    color: "#0F75BC",
+                                    highlight: "#b74865",
+                                    label: "Calidad de enseñanza"
+                                },
+                            ];
 
 
-                var ctx2 = document.getElementById("chart-area2").getContext("2d");
-                window.myPie = new Chart(ctx2).Doughnut(pieData);
-                </script> 
-
-                <table width="255" border="1">
-                    <tr>
-                        <td width="22"  BGCOLOR="#8CC63F" >&nbsp;</td>
-                        <td width="175"><font color="Black">Asistencia</td>
-                    </tr>
-                    <tr>
-                        <td width="22"  BGCOLOR="#13A89E">&nbsp;</td>
-                        <td><font color="Black">Dominio del tema</td>
-                    </tr>
-                    <tr>
-                        <td width="22"  BGCOLOR="#0F75BC">&nbsp;</td>
-                        <td><font color="Black">Calidad de enseñanza</td>
-                    </tr>
-                </table> 
-                <p>&nbsp;</p>
-                <p><font color="2BB673" SIZE=5 >Materias Impartidas</font></p>
-                <c:forEach var="materias" items="${materiasImpartidas}">
-                    <p>
-                        <font color="0F75BC" SIZE=4>${materias.nombreMateria}</font>
-                    </p>
-                </c:forEach>
-                <p>&nbsp;</p>
-                <p>&nbsp;</p>
-                <table width="287" height="199" border="0" align="right">
-                    <tr>
-                        <td height="0" bgcolor="#999999"><form name="form2" method="post" action="">
-                                <label for="nombre"></label>
-                                <div align="center"><span class="row">
-                                        <input id="name" class="input" name="name" type="text" value="" size="45" placeholder="Nombre" />
-                                    </span></div>
-                            </form></td>
-                    </tr>
-                    <tr>
-                        <td height="0" bgcolor="#999999"><form name="form3" method="post" action="">
-                                <label for="comentario1"></label>
-                                <label for="comentario"></label>
-                                <div align="center"><span class="row">
-                                        <textarea id="message" class="input" name="message" rows="7" cols="45" placeholder="Comentario"></textarea>
-                                        <input type="submit" name="Enviar" id="Enviar" value="Enviar">
-                                    </span>
-                                </div>
-                            </form></td>
-                    </tr>
-                    <tr></tr>
-                </table>
-            </p>
-            <p>&nbsp;</p>
-
+                            var ctx2 = document.getElementById("chart-area").getContext("2d");
+                            window.myPie = new Chart(ctx2).Doughnut(pieData);
+                        </script> 
+                    </div>
+                    <div id="div-aspectos">
+                        <table id="aspectos">
+                            <tr><td style="background-color: #0F75BC">  </td><td>Calidad de enseñanza</td></tr>
+                            <tr><td style="background-color: #13A89E">  </td><td>Domino del tema</td></tr>
+                            <tr><td style="background-color: #8CC63F">&nbsp;&nbsp;&nbsp;&nbsp;</td><td>Asistencia</td></tr>
+                        </table>
+                        <ul id="aspectos" style="text-align: left;">
+                            <li class="calidad"><span>Calidad de enseñanza</span></li>
+                            <li class="dominio"><span>Dominio del tema</span></li>
+                            <li class="asistencia"><span>Asistencia</span></li>
+                        </ul>
+                    </div>
+                </section>
+                <br/>
+                <section>
+                    <div>
+                        <ul id="ul-materias">
+                            <li>
+                                <header>
+                                    <h3 class="titulo-materias">Materias Impartidas</h3>
+                                </header>
+                            </li>
+                            <ul>
+                                <c:forEach var="materias" items="${materiasImpartidas}">
+                                    <li class="materia">
+                                        ${materias.nombreMateria}
+                                    </li>
+                                </c:forEach>
+                            </ul>
+                        </ul>
+                    </div>
+                </section>
+            </main>
         </div>
-        <%@include file="footer.jsp" %>
-        </div>
+        <%--<%@include file="footer.jsp" %>--%>
     </body>
 </html>

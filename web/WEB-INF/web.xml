@@ -20,6 +20,8 @@
         <url-pattern>/login-admin</url-pattern>
         <url-pattern>/carrera</url-pattern>
         <url-pattern>/profesor-info</url-pattern>
+        <url-pattern>/comentario</url-pattern>
+        <url-pattern>/alta-admin</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>TestServlet</servlet-name>

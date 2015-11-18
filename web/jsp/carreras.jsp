@@ -3,10 +3,10 @@
     Created on : 28-oct-2015, 10:48:35
     Author     : vrebo
 --%>
-<%@include file="variables.jsp" %>>
+<%@include file="variables.jsp" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%    
-    pageContext.setAttribute("colors", new String[] {"a","b","c","d","e","f","g","h","i"} , pageContext.SESSION_SCOPE);   
+<%
+    pageContext.setAttribute("colors", new String[]{"a", "b", "c", "d", "e", "f", "g", "h", "i"}, pageContext.SESSION_SCOPE);
 %>
 <c:set var="i" value="${0}"/>
 <!DOCTYPE html>
@@ -15,6 +15,7 @@
         <title></title>
         <link href="${root}/css/principal.css" rel="stylesheet" />
         <link href="${root}/css/carreras.css" rel="stylesheet" />
+        <link href="${root}/css/header.css" rel="stylesheet"/>
     </head>
     <body>
         <%@include file="header.jsp" %>
@@ -36,8 +37,7 @@
                 </c:forEach>
             </section>
         </div>
-        <%@include file="footer.jsp" %>
-        </div>
+        <%@include file="footer.jsp" %>       
     </body>
 </html>
 

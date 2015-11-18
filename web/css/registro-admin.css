@@ -1,0 +1,71 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 18-nov-2015, 1:50:02
+    Author     : vrebo
+*/
+
+body{
+    font-family: "Arial";
+    background-color: #EEEEEE;
+}
+
+div#form-alta-admin{
+    text-align: center;
+    width: 100%;
+    height: 700px;
+    margin: auto;
+    background: -webkit-linear-gradient(#C9EB72, #2CB673); /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(#C9EB72, #2CB673); /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(#C9EB72, #2CB673); /* For Firefox 3.6 to 15 */
+    background: linear-gradient(#C9EB72, #2CB673); /* Standard syntax */
+}
+
+div#form-alta-admin header{
+    margin: 5px;
+    line-height: 100px;
+    color: #13A89E;
+}
+
+div#form-alta-admin form{
+    width: 70%;
+    height: 80%;
+    background-color: #AAE2AA;
+    border-radius: 30px;
+    margin: auto;
+}
+
+div#form-alta-admin table{
+    width: 95%;
+    height: 85%;
+    padding: 20px;
+}
+
+div#form-alta-admin td.label{
+    text-align: right;
+    width: 40%;
+}
+
+div#form-alta-admin input[type=text], input[type=email]{
+    width: 85%;
+    height: 30px;
+    padding-left: 10px;
+}
+
+div#form-alta-admin input[type=submit]{
+    border-radius: 5px;
+    background-color: #339900;
+    color: white;
+    width: 110px;
+    height: 40px;
+    font-weight: bold;
+}    
+
+div#form-alta-admin label{
+    font-size: 15px;
+    font-weight: bold;
+    color: #849144;
+}

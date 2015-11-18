@@ -15,6 +15,7 @@
         <title></title>
         <link href="${root}/css/principal.css" rel="stylesheet" />
         <link href="${root}/css/materias.css" rel="stylesheet" />
+        <link href="${root}/css/header.css" rel="stylesheet"/>
     </head>
     <body>
         <%@include file="header.jsp" %>

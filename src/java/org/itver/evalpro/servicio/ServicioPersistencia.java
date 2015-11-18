@@ -4,11 +4,13 @@ import java.util.List;
 import org.itver.evalpro.dao.AbstractFactory;
 import org.itver.evalpro.dao.AdministradorDAO;
 import org.itver.evalpro.dao.CarreraDAO;
+import org.itver.evalpro.dao.ComentarioDAO;
 import org.itver.evalpro.dao.DAOFactory;
 import org.itver.evalpro.dao.MaestroDAO;
 import org.itver.evalpro.dao.MateriaDAO;
 import org.itver.evalpro.dto.Administrador;
 import org.itver.evalpro.dto.Carrera;
+import org.itver.evalpro.dto.Comentario;
 import org.itver.evalpro.dto.Maestro;
 import org.itver.evalpro.dto.Materia;
 
@@ -17,7 +19,7 @@ import org.itver.evalpro.dto.Materia;
  * @author vrebo
  */
 public class ServicioPersistencia {
-//    private final ComentarioDAO   comentarioDAO;
+    private final ComentarioDAO   comentarioDAO;
     private final CarreraDAO carreraDAO;
     private final MaestroDAO      maestroDAO;
     private final MateriaDAO materiaDAO;
@@ -29,6 +31,7 @@ public class ServicioPersistencia {
         materiaDAO  = factory.getMateriaDAO();
         adminDAO    = factory.getAdministradorDAO();
         maestroDAO  = factory.getMaestroDAO();
+        comentarioDAO = factory.getComentarioDAO();
     }
 
     //Servicios para la entidad carrera
@@ -79,8 +82,7 @@ public class ServicioPersistencia {
     
     public List<Materia> buscarMateriasPorMaestro(int idMaestro) {
         return materiaDAO.buscarPorMaestro(idMaestro);
-    }
-    //estás horny
+    }    
 
     public List<Materia> buscarMateriasPorRango(int offset, int limite) {
         return materiaDAO.buscarPorRangos(offset, limite);
@@ -142,5 +144,34 @@ public class ServicioPersistencia {
     
     public List<Maestro> buscarMaestrosPorMateria(int idMateria){
         return maestroDAO.buscarPorMateria(idMateria);
+    }
+    
+    //Servicios para comentarios
+    public void persistirComentario(Comentario c) {
+        comentarioDAO.persistir(c);
+    }
+
+    public void actualizarComentario(Comentario c) {
+        comentarioDAO.actualizar(c);
+    }
+
+    public void eliminarComentario(Comentario c) {
+        comentarioDAO.eliminar(c);
+    }
+
+    public Comentario buscarComentarioPorId(int id) {
+        return comentarioDAO.buscarPorId(id);
+    }
+
+    public List<Comentario> buscarComentarios() {
+        return comentarioDAO.buscarTodos();
+    }
+
+    public List<Comentario> buscarComentariosPorRango(int offset, int limite) {
+        return comentarioDAO.buscarPorRangos(offset, limite);
+    }
+    
+    public List<Comentario> buscarMaestrosPorMaestro(int idMaestro){
+        return comentarioDAO.buscarPorIdMaestro(idMaestro);
     }
 }

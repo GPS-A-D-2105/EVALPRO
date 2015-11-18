@@ -8,6 +8,8 @@
 
 body{
     background-color:#ffffff;
+    margin-left: 170px;
+    margin-right: 170px;
 }
 #contenedor{
     background-color:#ffffff;
@@ -137,8 +139,10 @@ div#contenido{
 footer{
     background-color:black;
     padding-top:20px;
-    width:900px;
+    margin-top: 20px;
+    /*width:900px;*/
     height:60px;
+    float: bottom;
 }
 
 footer p{
