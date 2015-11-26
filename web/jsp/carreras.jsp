@@ -26,7 +26,7 @@
                 <c:forEach var="carrera" items="${listaCarreras}">
                     <a href="${root}/materia?idCarrera=${carrera.idCarrera}">
                         <article class="${colors[i]}">                            
-                            <h3>${carrera.nombreCarrera}</h3>
+                            <h3>${carrera.nombre}</h3>
                             <img src="${root}/${carrera.iconoUrl}" width="92" height="100"/>
                         </article>
                     </a>

@@ -44,16 +44,16 @@
         </web-resource-collection>
         <auth-constraint>
             <description/>
-            <role-name>admin</role-name>
+            <role-name>administrador</role-name>
         </auth-constraint>
     </security-constraint>
     <login-config>
         <auth-method>BASIC</auth-method>
-        <realm-name>JDBCRealm</realm-name>
+        <realm-name>evalproRealm</realm-name>
     </login-config>
     <security-role>
         <description/>
-        <role-name>admin</role-name>
+        <role-name>administrador</role-name>
     </security-role>
     <security-role>
         <description/>

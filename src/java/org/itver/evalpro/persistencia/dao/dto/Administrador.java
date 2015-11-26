@@ -19,6 +19,7 @@ package org.itver.evalpro.persistencia.dao.dto;
 import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Basic;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -49,47 +50,63 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "Administrador.findByEstado", query = "SELECT a FROM Administrador a WHERE a.estado = :estado")})
 public class Administrador implements Serializable {
 
+  
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
+    @Column(name = "idAdmin")
     private Integer idAdmin;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 45)
+    @Column(name = "nombre")
     private String nombre;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 45)
+    @Column(name = "apellidoPaterno")
     private String apellidoPaterno;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 45)
+    @Column(name = "apellidoMaterno")
     private String apellidoMaterno;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 45)
+    @Column(name = "userName")
     private String userName;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 32)
+    @Column(name = "password")
     private String password;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 45)
+    @Column(name = "numeroControl")
     private String numeroControl;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 45)
+    @Column(name = "correo")
     private String correo;
     @Basic(optional = false)
     @NotNull
+    @Column(name = "registro")
     @Temporal(TemporalType.TIMESTAMP)
     private Date registro;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 8)
+    @Column(name = "estado")
     private String estado;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 14)
+    @Column(name = "rol")
+    private String rol;
 
     public Administrador() {
     }
@@ -98,7 +115,7 @@ public class Administrador implements Serializable {
         this.idAdmin = idAdmin;
     }
 
-    public Administrador(Integer idAdmin, String nombre, String apellidoPaterno, String apellidoMaterno, String userName, String password, String numeroControl, String correo, Date registro, String estado) {
+    public Administrador(Integer idAdmin, String nombre, String apellidoPaterno, String apellidoMaterno, String userName, String password, String numeroControl, String correo, Date registro, String estado, String rol) {
         this.idAdmin = idAdmin;
         this.nombre = nombre;
         this.apellidoPaterno = apellidoPaterno;
@@ -109,6 +126,7 @@ public class Administrador implements Serializable {
         this.correo = correo;
         this.registro = registro;
         this.estado = estado;
+        this.rol = rol;
     }
 
     public Integer getIdAdmin() {
@@ -191,6 +209,14 @@ public class Administrador implements Serializable {
         this.estado = estado;
     }
 
+    public String getRol() {
+        return rol;
+    }
+
+    public void setRol(String rol) {
+        this.rol = rol;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -205,15 +231,12 @@ public class Administrador implements Serializable {
             return false;
         }
         Administrador other = (Administrador) object;
-        if ((this.idAdmin == null && other.idAdmin != null) || (this.idAdmin != null && !this.idAdmin.equals(other.idAdmin))) {
-            return false;
-        }
-        return true;
+        return !((this.idAdmin == null && null != other.idAdmin) || (this.idAdmin != null && !this.idAdmin.equals(other.idAdmin)));
     }
 
     @Override
     public String toString() {
-        return "org.itver.evalpro.persistencia.dao.dto.Administrador[ idAdmin=" + idAdmin + " ]";
+        return "org.itver.evalpro.persistencia.dao.dto.Administrador_1[ idAdmin=" + idAdmin + " ]";
     }
-    
+  
 }
