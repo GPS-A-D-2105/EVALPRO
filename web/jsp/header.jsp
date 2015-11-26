@@ -33,29 +33,29 @@
     </div>
 </div>-->
 <section>
-<section id="header">
-    <div id="logo-eslogan">
-        <img id="logo" src="${root}/imagenes/EvalPro.png" />
-        <h4>Aquí va un eslogan.</h4>
-    </div>
-    <nav class="nav-bar-2">
+    <section id="header">
+        <div id="logo-eslogan">
+            <img id="logo" src="${root}/imagenes/EvalPro.png" alt="Evalpro logo"/>
+            <h4>Aquí va un eslogan.</h4>
+        </div>
+        <nav class="nav-bar-2">
+            <ul>
+                <li><a href="${root}">INICIO</a></li>
+                <li><a href="${root}/acerca">ACERCA</a></li>
+                <li><a href="${root}/admin">ADMINISTRADOR</a></li>                            
+            </ul>
+            <form>
+                <input type="search" placeholder="Buscar..." style="margin: 20px; width: 260px;">
+            </form>
+        </nav>
+    </section>
+    <nav class="nav-bar">
         <ul>
             <li><a href="${root}">INICIO</a></li>
-            <li><a href="${root}/acerca">ACERCA</a></li>
-            <li><a href="${root}/materia">ADMINISTRADOR</a></li>                            
+            <li><a href="${root}/carrera">CARRERAS</a></li>
+            <li><a href="${root}/materia">MATERIAS</a></li>
+            <li><a href="${root}/profesor">PROFESORES</a></li>
+            <li><a href="#">...</a></li>
         </ul>
-        <form>
-            <input type="search" placeholder="Buscar..." style="margin: 20px; width: 260px;">
-        </form>
     </nav>
-</section>
-<nav class="nav-bar">
-    <ul>
-        <li><a href="${root}">INICIO</a></li>
-        <li><a href="${root}/carrera">CARRERAS</a></li>
-        <li><a href="${root}/materia">MATERIAS</a></li>
-        <li><a href="${root}/profesor">PROFESORES</a></li>
-        <li><a href="#">...</a></li>
-    </ul>
-</nav>
 </section>

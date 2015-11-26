@@ -5,7 +5,7 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@include file="variables.jsp" %>
+<%@include file="../variables.jsp" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -16,12 +16,12 @@
         <title>JSP Page</title>
     </head>
     <body>
-        <%@include file="header.jsp" %>
+        <%@include file="../header.jsp" %>
         <div id="form-alta-admin">
             <header>
                 <h1>ALTA DE ADMINISTRADORES</h1>
             </header>
-            <form action="${root}/alta-admin" method="POST">
+            <form action="${root}/admin/alta-admin" method="POST">
                 <table>
 <!--                    <tr>
                         <td class="label"><label>NOMBRE DE USUARIO:</label></td>
@@ -56,6 +56,6 @@
             </form>
         </div>
         
-        <%@include file="footer.jsp" %>
+        <%@include file="../footer.jsp" %>
     </body>
 </html>

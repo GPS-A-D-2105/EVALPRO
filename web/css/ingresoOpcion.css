@@ -1,0 +1,80 @@
+﻿body {
+    background-color:#13A89E;
+}
+
+#contenido{
+    width:900px;
+    height:400px;
+    margin-left:auto;
+    margin-right:auto;
+}
+
+section{
+    background-color:#13A89E;
+}
+
+section#logo{
+    background-color:#0F75BC;
+}
+
+
+img{
+    margin-top:40px;
+    margin-left:272px;
+    width:355px;
+    height:90px;
+}
+
+
+    input{
+        height:35px;
+        width:300px;
+    }
+
+    p{
+        font-size:20px;
+    }
+
+ #botones{
+     margin-top:25px;
+       margin-left:240px;
+ }
+   #botones article{
+       
+       height:30px;
+       width:190px;
+       background-color:blue;
+       text-decoration:none;
+       color:white;
+       border:1px solid white;
+       display:inline-block;
+       border-radius:5px;
+       
+   }
+
+  
+
+   #botones article p{
+       font-size:20px;
+      text-align:center;
+      margin-top:5px;
+   }
+
+      article#b{
+       margin-left:105px;
+       width:125px;
+   }
+
+h1, h2 {
+    text-align:center;
+    font-size:30px;
+    margin-top:45px;
+
+}
+
+section#comentario{
+    margin-left:215px;
+    width:485px;
+    height:155px;
+}
+
