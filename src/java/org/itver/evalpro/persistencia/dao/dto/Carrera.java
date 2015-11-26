@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015 vrebo
+ * Copyright (C) 2015 Alfonso
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -20,74 +20,91 @@ import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
-import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
-import javax.persistence.Table;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 /**
- * Clase cuyas instancias encapsulan los datos
  *
- * @author vrebo
+ * @author Alfonso
  */
 @Entity
-@Table(name = "carrera")
-@XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Carrera.findAll", query = "SELECT c FROM Carrera c"),
-    @NamedQuery(name = "Carrera.findByIdCarrera", query = "SELECT c FROM Carrera c WHERE c.id = :idCarrera"),
-    @NamedQuery(name = "Carrera.findByNombreCarrera", query = "SELECT c FROM Carrera c WHERE c.nombreCarrera = :nombreCarrera")})
-public class Carrera extends Entidad<Integer> implements Serializable {
-    private List<CarreraMateria> carreraMateriaList;
-
-    private String iconoUrl;
+    @NamedQuery(name = "Carrera.findByIdCarrera", query = "SELECT c FROM Carrera c WHERE c.idCarrera = :idCarrera"),
+    @NamedQuery(name = "Carrera.findByNombre", query = "SELECT c FROM Carrera c WHERE c.nombre = :nombre"),
+    @NamedQuery(name = "Carrera.findByIconoUrl", query = "SELECT c FROM Carrera c WHERE c.iconoUrl = :iconoUrl")})
+public class Carrera implements Serializable {
 
     private static final long serialVersionUID = 1L;
-
-    private String nombreCarrera;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Basic(optional = false)
+    private Integer idCarrera;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 45)
+    private String nombre;
+    @Size(max = 300)
+    private String iconoUrl;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idCarrera", fetch = FetchType.LAZY)
+    private List<CarreraMateria> carreraMateriaList;
 
     public Carrera() {
     }
 
     public Carrera(Integer idCarrera) {
-        this.id = idCarrera;
+        this.idCarrera = idCarrera;
     }
 
-    public Carrera(Integer idCarrera, String nombreCarrera) {
-        this.id = idCarrera;
-        this.nombreCarrera = nombreCarrera;
+    public Carrera(Integer idCarrera, String nombre) {
+        this.idCarrera = idCarrera;
+        this.nombre = nombre;
     }
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Basic(optional = false)
-    @Column(name = "idCarrera")
-    @Override
-    public Integer getId() {
-        return id;
+    public Integer getIdCarrera() {
+        return idCarrera;
     }
 
-    @Basic(optional = false)
-    @Column(name = "nombreCarrera")
-    public String getNombreCarrera() {
-        return nombreCarrera;
+    public void setIdCarrera(Integer idCarrera) {
+        this.idCarrera = idCarrera;
     }
 
-    public void setNombreCarrera(String nombreCarrera) {
-        this.nombreCarrera = nombreCarrera;
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public String getIconoUrl() {
+        return iconoUrl;
+    }
+
+    public void setIconoUrl(String iconoUrl) {
+        this.iconoUrl = iconoUrl;
+    }
+
+    public List<CarreraMateria> getCarreraMateriaList() {
+        return carreraMateriaList;
+    }
+
+    public void setCarreraMateriaList(List<CarreraMateria> carreraMateriaList) {
+        this.carreraMateriaList = carreraMateriaList;
     }
 
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
+        hash += (idCarrera != null ? idCarrera.hashCode() : 0);
         return hash;
     }
 
@@ -98,7 +115,7 @@ public class Carrera extends Entidad<Integer> implements Serializable {
             return false;
         }
         Carrera other = (Carrera) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+        if ((this.idCarrera == null && other.idCarrera != null) || (this.idCarrera != null && !this.idCarrera.equals(other.idCarrera))) {
             return false;
         }
         return true;
@@ -106,26 +123,7 @@ public class Carrera extends Entidad<Integer> implements Serializable {
 
     @Override
     public String toString() {
-        return "org.itver.x.dto.Carrera[ idCarrera=" + id + " ]";
+        return "org.itver.evalpro.persistencia.dao.dto.Carrera[ idCarrera=" + idCarrera + " ]";
     }
-
-    @Column(name = "iconoUrl")
-    public String getIconoUrl() {
-        return iconoUrl;
-    }
-
-    public void setIconoUrl(String iconoUrl) {
-        this.iconoUrl = iconoUrl;
-    }
-
-@OneToMany(cascade = CascadeType.ALL, mappedBy = "idCarrera")
-    @XmlTransient
-    public List<CarreraMateria> getCarreraMateriaList() {
-        return carreraMateriaList;
-    }
-
-    public void setCarreraMateriaList(List<CarreraMateria> carreraMateriaList) {
-        this.carreraMateriaList = carreraMateriaList;
-    }
-
+    
 }

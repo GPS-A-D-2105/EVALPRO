@@ -24,7 +24,6 @@ import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import org.itver.evalpro.persistencia.dao.DataAccessObject;
-import org.itver.evalpro.persistencia.dao.dto.Entidad;
 
 /**
  * @TODO cambiar la creación del EntityManager durante el uso de los métodos de
@@ -84,13 +83,6 @@ class GenericJPAImpl<E, Id> implements DataAccessObject<E, Id> {
         EntityManager _em = getEntityManager();
         EntityTransaction et = _em.getTransaction();
         et.begin();
-
-        if (!_em.contains(e) && _em.find(clase, ((Entidad) e).getId()) != null) {
-            e = _em.merge(e);
-        } else {
-            et.rollback();
-            return false;
-        }
 
         try {
             _em.remove(e);

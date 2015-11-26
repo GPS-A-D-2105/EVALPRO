@@ -21,7 +21,12 @@ import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
@@ -40,58 +45,75 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Comentario.findAll", query = "SELECT c FROM Comentario c"),
-    @NamedQuery(name = "Comentario.findByIdComentario", query = "SELECT c FROM Comentario c WHERE c.id = :idComentario"),
+    @NamedQuery(name = "Comentario.findByIdComentario", query = "SELECT c FROM Comentario c WHERE c.idComentario = :idComentario"),
     @NamedQuery(name = "Comentario.findByContenido", query = "SELECT c FROM Comentario c WHERE c.contenido = :contenido"),
     @NamedQuery(name = "Comentario.findByRegistro", query = "SELECT c FROM Comentario c WHERE c.registro = :registro"),
     @NamedQuery(name = "Comentario.findByUsuario", query = "SELECT c FROM Comentario c WHERE c.usuario = :usuario"),
     @NamedQuery(name = "Comentario.findByCalifAsist", query = "SELECT c FROM Comentario c WHERE c.califAsist = :califAsist"),
     @NamedQuery(name = "Comentario.findByCalifDomi", query = "SELECT c FROM Comentario c WHERE c.califDomi = :califDomi"),
     @NamedQuery(name = "Comentario.findByCalifCalid", query = "SELECT c FROM Comentario c WHERE c.califCalid = :califCalid"),
-    @NamedQuery(name = "Comentario.findByIdMaestro", query = "SELECT c FROM Comentario c, Reseña r WHERE c.idReseña = r.id AND r.idMaestro = :idMaestro ")
+    @NamedQuery(name = "Comentario.findByIdMaestro", query = "SELECT c FROM Comentario c, Reseña r WHERE c.idReseña = r.idReseña AND r.idMaestro = :idMaestro ")
 })
 
-public class Comentario extends Entidad<Integer> implements Serializable {
+public class Comentario  implements Serializable {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Basic(optional = false)
+    private Integer idComentario;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 140)
+    private String contenido;
+    @Basic(optional = false)
+    @NotNull
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date registro;
+    @Size(max = 20)
+    private String usuario;
+    @Basic(optional = false)
+    @NotNull
+    private int califAsist;
+    @Basic(optional = false)
+    @NotNull
+    private int califDomi;
+    @Basic(optional = false)
+    @NotNull
+    private int califCalid;
+    @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 9)
     private String estado;
 
-    private static final long serialVersionUID = 1L;
-    private static final int DEFAULT_CALIF_SIZE = 3;
-
-    private String contenido;
-    private Date registro;
-    private String usuario;
-    private final int[] calificaciones;
-    private Integer idReseña;
+     @JoinColumn(name = "idRese\u00f1a", referencedColumnName = "idRese\u00f1a")
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    private Reseña idReseña;
 
     public Comentario() {
-        calificaciones = new int[DEFAULT_CALIF_SIZE];
     }
 
     public Comentario(Integer idComentario) {
-        this();
-        this.id = idComentario;
+        this.idComentario = idComentario;
     }
 
-    public Comentario(Integer idComentario, String contenido, int califAsist, int califDomi, int califCalid) {
-        this();
-        this.id = idComentario;
+    public Comentario(Integer idComentario, String contenido, Date registro, int califAsist, int califDomi, int califCalid, String estado) {
+        this.idComentario = idComentario;
         this.contenido = contenido;
-        calificaciones[0] = califAsist;
-        calificaciones[1] = califDomi;
-        calificaciones[2] = califCalid;
+        this.registro = registro;
+        this.califAsist = califAsist;
+        this.califDomi = califDomi;
+        this.califCalid = califCalid;
+        this.estado = estado;
     }
 
-    @Id
-    @Basic(optional = false)
-    @Column(name = "idComentario")
-    @Override
-    public Integer getId() {
-        return id;
+    public Integer getIdComentario() {
+        return idComentario;
     }
 
-    @Basic(optional = false)
-    @Column(name = "contenido")
+    public void setIdComentario(Integer idComentario) {
+        this.idComentario = idComentario;
+    }
+
     public String getContenido() {
         return contenido;
     }
@@ -100,8 +122,6 @@ public class Comentario extends Entidad<Integer> implements Serializable {
         this.contenido = contenido;
     }
 
-    @Column(name = "registro")
-    @Temporal(TemporalType.TIMESTAMP)
     public Date getRegistro() {
         return registro;
     }
@@ -110,7 +130,6 @@ public class Comentario extends Entidad<Integer> implements Serializable {
         this.registro = registro;
     }
 
-    @Column(name = "usuario")
     public String getUsuario() {
         return usuario;
     }
@@ -119,52 +138,30 @@ public class Comentario extends Entidad<Integer> implements Serializable {
         this.usuario = usuario;
     }
 
-    @Basic(optional = false)
-    @Column(name = "califAsist")
     public int getCalifAsist() {
-        return calificaciones[0];
+        return califAsist;
     }
 
     public void setCalifAsist(int califAsist) {
-        calificaciones[0] = califAsist;
+        this.califAsist = califAsist;
     }
 
-    @Basic(optional = false)
-    @Column(name = "califDomi")
     public int getCalifDomi() {
-        return calificaciones[1];
+        return califDomi;
     }
 
     public void setCalifDomi(int califDomi) {
-        calificaciones[1] = califDomi;
+        this.califDomi = califDomi;
     }
 
-    @Basic(optional = false)
-    @Column(name = "califCalid")
     public int getCalifCalid() {
-        return calificaciones[2];
+        return califCalid;
     }
 
     public void setCalifCalid(int califCalid) {
-        calificaciones[2] = califCalid;
+        this.califCalid = califCalid;
     }
 
-    @Column(name = "idReseña")
-    public Integer getIdReseña() {
-        return idReseña;
-    }
-
-    public void setIdReseña(Integer idReseña) {
-        this.idReseña = idReseña;
-    }
-
-    @Override
-    public String toString() {
-        return "org.itver.x.dto.Comentario[ idComentario=" + id + " ]";
-    }
-
-@Basic(optional = false)
-    @Column(name = "estado")
     public String getEstado() {
         return estado;
     }
@@ -173,4 +170,38 @@ public class Comentario extends Entidad<Integer> implements Serializable {
         this.estado = estado;
     }
 
+    public Reseña getIdReseña() {
+        return idReseña;
+    }
+
+    public void setIdReseña(Reseña idReseña) {
+        this.idReseña = idReseña;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 0;
+        hash += (idComentario != null ? idComentario.hashCode() : 0);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        // TODO: Warning - this method won't work in the case the id fields are not set
+        if (!(object instanceof Comentario)) {
+            return false;
+        }
+        Comentario other = (Comentario) object;
+        if ((this.idComentario == null && other.idComentario != null) || (this.idComentario != null && !this.idComentario.equals(other.idComentario))) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return "org.itver.evalpro.persistencia.dao.dto.Comentario[ idComentario=" + idComentario + " ]";
+    }
+
+   
 }

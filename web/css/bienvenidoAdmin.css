@@ -1,4 +1,4 @@
-﻿#profesoresbusqueda{
+#profesoresbusqueda{
      margin-left:70px;
     margin-top:20px;
     display:inline-block;
@@ -13,7 +13,7 @@
 
 
  #search2{
-   //   background: linear-gradient(90deg, #2BB673, white);
+   /*//   background: linear-gradient(90deg, #2BB673, white);*/
    background-color:#2BB673;
     color:black;
      width:420px; 

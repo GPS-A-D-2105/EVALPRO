@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015 vrebo
+ * Copyright (C) 2015 Alfonso
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -20,8 +20,8 @@ import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
-import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -31,37 +31,30 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
-import org.itver.evalpro.persistencia.dao.dto.Carrera;
-import org.itver.evalpro.persistencia.dao.dto.Materia;
-import org.itver.evalpro.persistencia.dao.dto.Reseña;
 
 /**
  *
- * @author vrebo
+ * @author Alfonso
  */
 @Entity
 @Table(name = "carrera_materia")
-@XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "CarreraMateria.findAll", query = "SELECT c FROM CarreraMateria c"),
     @NamedQuery(name = "CarreraMateria.findByIdCarreraMateria", query = "SELECT c FROM CarreraMateria c WHERE c.idCarreraMateria = :idCarreraMateria")})
 public class CarreraMateria implements Serializable {
-    private static final long serialVersionUID = 1L;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "idCarreraMateria")
     private Integer idCarreraMateria;
-    @JoinColumn(name = "idCarrera", referencedColumnName = "idCarrera")
-    @ManyToOne(optional = false)
-    private Carrera idCarrera;
-    @JoinColumn(name = "idMateria", referencedColumnName = "idMateria")
-    @ManyToOne(optional = false)
-    private Materia idMateria;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idCarreraMateria")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idCarreraMateria", fetch = FetchType.LAZY)
     private List<Reseña> reseñaList;
+    @JoinColumn(name = "idMateria", referencedColumnName = "idMateria")
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    private Materia idMateria;
+    @JoinColumn(name = "idCarrera", referencedColumnName = "idCarrera")
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    private Carrera idCarrera;
 
     public CarreraMateria() {
     }
@@ -78,12 +71,12 @@ public class CarreraMateria implements Serializable {
         this.idCarreraMateria = idCarreraMateria;
     }
 
-    public Carrera getIdCarrera() {
-        return idCarrera;
+    public List<Reseña> getReseñaList() {
+        return reseñaList;
     }
 
-    public void setIdCarrera(Carrera idCarrera) {
-        this.idCarrera = idCarrera;
+    public void setReseñaList(List<Reseña> reseñaList) {
+        this.reseñaList = reseñaList;
     }
 
     public Materia getIdMateria() {
@@ -94,13 +87,12 @@ public class CarreraMateria implements Serializable {
         this.idMateria = idMateria;
     }
 
-    @XmlTransient
-    public List<Reseña> getReseñaList() {
-        return reseñaList;
+    public Carrera getIdCarrera() {
+        return idCarrera;
     }
 
-    public void setReseñaList(List<Reseña> reseñaList) {
-        this.reseñaList = reseñaList;
+    public void setIdCarrera(Carrera idCarrera) {
+        this.idCarrera = idCarrera;
     }
 
     @Override
@@ -125,7 +117,7 @@ public class CarreraMateria implements Serializable {
 
     @Override
     public String toString() {
-        return "org.itver.evalpro.persistencia.dao.CarreraMateria[ idCarreraMateria=" + idCarreraMateria + " ]";
+        return "org.itver.evalpro.persistencia.dao.dto.CarreraMateria[ idCarreraMateria=" + idCarreraMateria + " ]";
     }
     
 }

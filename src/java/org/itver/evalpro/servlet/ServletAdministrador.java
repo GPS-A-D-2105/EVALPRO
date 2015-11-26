@@ -63,7 +63,7 @@ public class ServletAdministrador extends HttpServlet {
                 sp.cerrarServicio();
                 break;
             case "/admin/baja-admin":
-                String idAdmin = request.getParameter("id");
+                int idAdmin = Integer.parseInt(request.getParameter("id"));
                 Administrador admin = new Administrador(idAdmin);
                 ServicioPersistencia _sp = new ServicioPersistencia();
                 _sp.eliminarAdministrador(admin);
@@ -126,7 +126,14 @@ public class ServletAdministrador extends HttpServlet {
                 System.out.println("apMaterno = " + apMaterno);
                 System.out.println("email = " + email);
                 System.out.println("password = " + password);
-                Administrador admin_ = new Administrador(noControl, 1, nombre, apPaterno, apMaterno, password, noControl, email);
+                Administrador admin_ = new Administrador();
+                admin_.setNumeroControl(noControl);
+                admin_.setNombre(nombre);
+                admin_.setApellidoPaterno(apPaterno);
+                admin_.setApellidoMaterno(apMaterno);
+                admin_.setPassword(password);
+                admin_.setNumeroControl(noControl);
+                admin_.setCorreo(email);;
                 ServicioPersistencia sp = new ServicioPersistencia();
                 sp.persisitirAdministrador(admin_);
                 sp.cerrarServicio();

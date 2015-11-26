@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015 vrebo
+ * Copyright (C) 2015 Alfonso
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,85 +17,93 @@
 package org.itver.evalpro.persistencia.dao.dto;
 
 import java.io.Serializable;
-import java.util.List;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author vrebo
+ * @author Alfonso
  */
 @Entity
-@Table(name = "rese\u00f1a")
-@XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Rese\u00f1a.findAll", query = "SELECT r FROM Rese\u00f1a r"),
-    @NamedQuery(name = "Rese\u00f1a.findByIdRese\u00f1a", query = "SELECT r FROM Rese\u00f1a r WHERE r.id = :idRese\u00f1a")})
-public class Reseña extends Entidad<Integer> implements Serializable {
-    private List<Comentario> comentarioList;
+    @NamedQuery(name = "Rese\u00f1a.findByIdRese\u00f1a", query = "SELECT r FROM Rese\u00f1a r WHERE r.idRese\u00f1a = :idRese\u00f1a")})
+public class Reseña implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    private Integer idMaestro;
-    private Integer idCarreraMateria;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Basic(optional = false)
+    private Integer idReseña;
+    @JoinColumn(name = "idCarreraMateria", referencedColumnName = "idCarreraMateria")
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    private CarreraMateria idCarreraMateria;
+    @JoinColumn(name = "idMaestro", referencedColumnName = "idMaestro")
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    private Maestro idMaestro;
 
     public Reseña() {
     }
 
     public Reseña(Integer idReseña) {
-        this.id = idReseña;
+        this.idReseña = idReseña;
     }
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Basic(optional = false)
-    @Column(name = "idRese\u00f1a")
-    @Override
-    public Integer getId() {
-        return id;
+    public Integer getIdReseña() {
+        return idReseña;
     }
 
-    @Column(name = "idMaestro")
-    public Integer getIdMaestro() {
-        return idMaestro;
+    public void setIdReseña(Integer idReseña) {
+        this.idReseña = idReseña;
     }
 
-    @Column(name = "idCarreraMateria")
-    public Integer getIdCarreraMateria() {
+    public CarreraMateria getIdCarreraMateria() {
         return idCarreraMateria;
     }
 
-    public void setIdMaestro(Integer idMaestro) {
+    public void setIdCarreraMateria(CarreraMateria idCarreraMateria) {
+        this.idCarreraMateria = idCarreraMateria;
+    }
+
+    public Maestro getIdMaestro() {
+        return idMaestro;
+    }
+
+    public void setIdMaestro(Maestro idMaestro) {
         this.idMaestro = idMaestro;
     }
 
-    public void setIdCarreraMateria(Integer idCarreraMateria) {
-        this.idCarreraMateria = idCarreraMateria;
+    @Override
+    public int hashCode() {
+        int hash = 0;
+        hash += (idReseña != null ? idReseña.hashCode() : 0);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        // TODO: Warning - this method won't work in the case the id fields are not set
+        if (!(object instanceof Reseña)) {
+            return false;
+        }
+        Reseña other = (Reseña) object;
+        if ((this.idReseña == null && other.idReseña != null) || (this.idReseña != null && !this.idReseña.equals(other.idReseña))) {
+            return false;
+        }
+        return true;
     }
 
     @Override
     public String toString() {
-        return "org.itver.x.dto.Rese\u00f1a[ idRese\u00f1a=" + id + " ]";
+        return "org.itver.evalpro.persistencia.dao.dto.Rese\u00f1a[ idRese\u00f1a=" + idReseña + " ]";
     }
-
-@OneToMany(cascade = CascadeType.ALL, mappedBy = "idRese\u00f1a")
-    @XmlTransient
-    public List<Comentario> getComentarioList() {
-        return comentarioList;
-    }
-
-    public void setComentarioList(List<Comentario> comentarioList) {
-        this.comentarioList = comentarioList;
-    }
+    
 }

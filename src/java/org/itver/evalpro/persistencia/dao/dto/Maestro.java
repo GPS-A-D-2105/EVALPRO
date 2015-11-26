@@ -23,6 +23,7 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -32,6 +33,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
@@ -43,8 +46,8 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name = "maestro")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Maestro.findAll", query = "SELECT m FROM Maestro m ORDER BY nombre"),
-    @NamedQuery(name = "Maestro.findByIdMaestro", query = "SELECT m FROM Maestro m WHERE m.id = :idMaestro"),
+    @NamedQuery(name = "Maestro.findAll", query = "SELECT m FROM Maestro m ORDER BY m.nombre"),
+    @NamedQuery(name = "Maestro.findByIdMaestro", query = "SELECT m FROM Maestro m WHERE m.idMaestro = :idMaestro"),
     @NamedQuery(name = "Maestro.findByNombre", query = "SELECT m FROM Maestro m WHERE m.nombre = :nombre"),
     @NamedQuery(name = "Maestro.findByApellidoPaterno", query = "SELECT m FROM Maestro m WHERE m.apellidoPaterno = :apellidoPaterno"),
     @NamedQuery(name = "Maestro.findByApellidoMaterno", query = "SELECT m FROM Maestro m WHERE m.apellidoMaterno = :apellidoMaterno"),
@@ -52,116 +55,140 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Maestro.findByRegistro", query = "SELECT m FROM Maestro m WHERE m.registro = :registro"),
     @NamedQuery(name = "Maestro.findByG\u00e9nero", query = "SELECT m FROM Maestro m WHERE m.g\u00e9nero = :g\u00e9nero"),
     @NamedQuery(name = "Maestro.findByMateria", 
-            query = "SELECT m FROM Maestro m, CarreraMateria cm, Materia ma, Reseña r WHERE m.id = r.idMaestro AND r.idCarreraMateria = cm.id AND cm.idMateria = ma.id AND ma.id = :idMateria")
+            query = "SELECT m FROM Maestro m, CarreraMateria cm, Materia ma, Reseña r WHERE m.idMaestro = r.idMaestro AND r.idCarreraMateria = cm.idCarreraMateria AND cm.idMateria = ma.idMateria AND ma.idMateria = :idMateria")
 })
-public class Maestro extends Entidad<Integer> implements Serializable {
-    private List<Reseña> reseñaList;
+public class Maestro implements Serializable {
 
-    private static final long serialVersionUID = 1L;
-
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Basic(optional = false)
+    private Integer idMaestro;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 20)
     private String nombre;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 20)
     private String apellidoPaterno;
+    @Size(max = 20)
     private String apellidoMaterno;
+    // @Pattern(regexp="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", message="Invalid email")//if the field contains email address consider using this annotation to enforce field validation
+    @Size(max = 30)
     private String email;
+    @Basic(optional = false)
+    @NotNull
+    @Temporal(TemporalType.TIMESTAMP)
     private Date registro;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 10)
     private String género;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idMaestro", fetch = FetchType.LAZY)
+    private List<Reseña> reseñaList;
 
     public Maestro() {
     }
 
     public Maestro(Integer idMaestro) {
-        this.id = idMaestro;
+        this.idMaestro = idMaestro;
     }
 
     public Maestro(Integer idMaestro, String nombre, String apellidoPaterno, Date registro, String género) {
-        this.id = idMaestro;
+        this.idMaestro = idMaestro;
         this.nombre = nombre;
         this.apellidoPaterno = apellidoPaterno;
         this.registro = registro;
         this.género = género;
     }
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Basic(optional = false)
-    @Column(name = "idMaestro")
-    @Override
-    public Integer getId() {
-        return id;
+    public Integer getIdMaestro() {
+        return idMaestro;
     }
 
-    @Basic(optional = false)
-    @Column(name = "nombre")
+    public void setIdMaestro(Integer idMaestro) {
+        this.idMaestro = idMaestro;
+    }
+
     public String getNombre() {
         return nombre;
-    }
-
-    @Basic(optional = false)
-    @Column(name = "apellidoPaterno")
-    public String getApellidoPaterno() {
-        return apellidoPaterno;
-    }
-
-    @Column(name = "apellidoMaterno")
-    public String getApellidoMaterno() {
-        return apellidoMaterno;
-    }
-
-    @Column(name = "email")
-    public String getEmail() {
-        return email;
-    }
-
-    @Basic(optional = false)
-    @Column(name = "registro")
-    @Temporal(TemporalType.TIMESTAMP)
-    public Date getRegistro() {
-        return registro;
-    }
-
-    @Basic(optional = false)
-    @Column(name = "g\u00e9nero")
-    public String getGénero() {
-        return género;
     }
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
 
+    public String getApellidoPaterno() {
+        return apellidoPaterno;
+    }
+
     public void setApellidoPaterno(String apellidoPaterno) {
         this.apellidoPaterno = apellidoPaterno;
+    }
+
+    public String getApellidoMaterno() {
+        return apellidoMaterno;
     }
 
     public void setApellidoMaterno(String apellidoMaterno) {
         this.apellidoMaterno = apellidoMaterno;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public Date getRegistro() {
+        return registro;
     }
 
     public void setRegistro(Date registro) {
         this.registro = registro;
     }
 
+    public String getGénero() {
+        return género;
+    }
+
     public void setGénero(String género) {
         this.género = género;
     }
 
-    @Override
-    public String toString() {
-        return "org.itver.x.dto.Maestro[ idMaestro=" + id + " ]";
-    }
-
-@OneToMany(cascade = CascadeType.ALL, mappedBy = "idMaestro")
-    @XmlTransient
     public List<Reseña> getReseñaList() {
         return reseñaList;
     }
 
     public void setReseñaList(List<Reseña> reseñaList) {
         this.reseñaList = reseñaList;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 0;
+        hash += (idMaestro != null ? idMaestro.hashCode() : 0);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        // TODO: Warning - this method won't work in the case the id fields are not set
+        if (!(object instanceof Maestro)) {
+            return false;
+        }
+        Maestro other = (Maestro) object;
+        if ((this.idMaestro == null && other.idMaestro != null) || (this.idMaestro != null && !this.idMaestro.equals(other.idMaestro))) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return "org.itver.evalpro.persistencia.dao.dto.Maestro[ idMaestro=" + idMaestro + " ]";
     }
 
 }
