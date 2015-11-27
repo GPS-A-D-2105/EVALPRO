@@ -30,10 +30,10 @@
                 </tr>
                 <c:forEach var="materia" items="${listaMaterias}">
                     <tr id="${colors[i]}">
-                        <c:set var="enlace" value="${root}/profesor?idMateria=${materia.id}&nombreMateria=${materia.nombreMateria}"/>
-                        <td><a href="${enlace}"><article id="article1"><p>${materia.nombreMateria}</p></article></a></td>
+                        <c:set var="enlace" value="${root}/profesor?idMateria=${materia.idMateria}&nombreMateria=${materia.nombre}"/>
+                        <td><a href="${enlace}"><article id="article1"><p>${materia.nombre}</p></article></a></td>
                         <td><a href="${enlace}"><article><p>${materia.creditos}</p></article></a></td>
-                        <td><a href="${enlace}"><article><p>${materia.id}</p></article></a></td>
+                        <td><a href="${enlace}"><article><p>${materia.idMateria}</p></article></a></td>
                     </tr>
                     <c:set var="i" value="${i+1}"/>
                     <c:if test="${i == 5}">

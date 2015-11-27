@@ -26,4 +26,6 @@ import org.itver.evalpro.persistencia.dao.dto.Comentario;
 public interface ComentarioDAO extends DataAccessObject<Comentario, Integer>{
     
     List<Comentario> buscarPorIdMaestro(Object idMaestro);
+    List<Comentario> buscarPorEstado(Comentario.Estado estado);
+    List<Comentario> buscarComentsProfsEstado(int idMaestro, Comentario.Estado estado);
 }

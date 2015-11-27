@@ -6,6 +6,10 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@include file="../variables.jsp" %>
+<%
+    pageContext.setAttribute("colors", new String[]{"tr1", "tr2", "tr3", "tr4", "tr5"}, pageContext.SESSION_SCOPE);
+%>
+<c:set var="i" value="${0}"/>
 <!DOCTYPE html>
 <html>
     <head>
@@ -41,7 +45,7 @@
                     <li><a href="${root}/carrera">CARRERAS</a></li>
                     <li><a href="${root}/materia">MATERIAS</a></li>
                     <li><a href="${root}/profesor">PROFESORES</a></li>
-                    <li><a href="#">...</a></li>
+                    <li><a href="${root}/admin">ADMIN</a></li>
                 </ul>
             </nav>
         </section>
@@ -52,7 +56,7 @@
                 <section id="buscadormaestros">
                     <input type="search" id="search2" placeholder="buscar algun maestro en especifico" autocomplete="on"  />
                 </section>
-                <a> <p>Agregados Recientemente</p></a>
+                <a href="${root}/admin/gestion-comentarios"> <p>Agregados Recientemente</p></a>
             </section>
 
             <section id="AEadmin">
@@ -64,7 +68,26 @@
                 </section> 
             </section>
         </section>
+
         <table>
+            <c:forEach var="profesor" items="${profesores}">
+                <tr id="${colors[i]}">
+                    <td>
+                        <c:set var="nombreProfesor" value="${profesor.nombre} ${profesor.apellidoPaterno} ${profesor.apellidoMaterno}"/>
+                        <a href="${root}/admin/revisar-comentarios-prof?idMaestro=${profesor.idMaestro}">
+                            <article>
+                                <p>
+                                    ${nombreProfesor}
+                                </p>
+                            </article>
+                        </a>
+                    </td>
+                </tr> 
+                <c:set var="i" value="${i+1}"/>
+                <c:if test="${i == 5}">
+                    <c:set var="i" value="${0}"/>
+                </c:if>
+            </c:forEach>
             <tr id="tr1">
                 <td><a href="ProfesoresxMateria.html"><article><p>ANDRADE GOMEZ HECTOR ADOLFO</p></article></a></td>
 

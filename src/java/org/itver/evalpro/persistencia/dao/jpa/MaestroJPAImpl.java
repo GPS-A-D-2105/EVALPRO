@@ -19,8 +19,8 @@ package org.itver.evalpro.persistencia.dao.jpa;
 import java.util.List;
 import javax.persistence.TypedQuery;
 import org.itver.evalpro.persistencia.dao.MaestroDAO;
+import org.itver.evalpro.persistencia.dao.dto.Comentario;
 import org.itver.evalpro.persistencia.dao.dto.Maestro;
-import org.itver.evalpro.persistencia.dao.dto.Materia;
 
 /**
  *
@@ -35,20 +35,30 @@ class MaestroJPAImpl
     }
 
     @Override
-    public List<Maestro> buscarPorMateria(Object idMateria) {
+    public List<Maestro> buscarPorMateria(Integer idMateria) {
         TypedQuery<Maestro> query
                 = getEntityManager()
-                        .createNamedQuery("Maestro.findByMateria", Maestro.class);
+                .createNamedQuery("Maestro.findByMateria", Maestro.class);
         query.setParameter("idMateria", idMateria);
         List<Maestro> results = query.getResultList();
         return results;
     }
-    
+
+    @Override
+    public List<Maestro> buscarPorEstadoComentario(Comentario.Estado estado) {
+        TypedQuery<Maestro> query
+                = getEntityManager()
+                .createNamedQuery("Maestro.findByEstadoComentario", Maestro.class);        
+        query.setParameter("estado", estado.toString());
+        List<Maestro> results = query.getResultList();
+        return results;
+    }
+
     @Override
     public List<Maestro> buscarTodos() {
         TypedQuery<Maestro> query
                 = getEntityManager()
-                        .createNamedQuery("Maestro.findAll", Maestro.class);       
+                .createNamedQuery("Maestro.findAll", Maestro.class);
         List<Maestro> results = query.getResultList();
         return results;
     }

@@ -44,4 +44,25 @@ class ComentarioJPAImpl
         return results;
     }
 
+    @Override
+    public List<Comentario> buscarPorEstado(Comentario.Estado estado) {
+        TypedQuery<Comentario> query
+                = getEntityManager()
+                .createNamedQuery("Comentario.findByEstado", Comentario.class);
+        query.setParameter("estado", estado.toString().toLowerCase());
+        List<Comentario> results = query.getResultList();
+        return results;
+    }
+
+    @Override
+    public List<Comentario> buscarComentsProfsEstado(int idMaestro, Comentario.Estado estado) {
+        TypedQuery<Comentario> query
+                = getEntityManager()
+                .createNamedQuery("Comentario.findByEstadoDeProf", Comentario.class);
+        query.setParameter("idMaestro", idMaestro);
+        query.setParameter("estado", estado.toString().toLowerCase());
+        List<Comentario> results = query.getResultList();
+        return results;
+    }
+
 }

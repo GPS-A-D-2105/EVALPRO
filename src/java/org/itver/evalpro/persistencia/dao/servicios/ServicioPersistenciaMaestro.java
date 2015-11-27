@@ -17,6 +17,7 @@
 package org.itver.evalpro.persistencia.dao.servicios;
 
 import java.util.List;
+import org.itver.evalpro.persistencia.dao.dto.Comentario;
 import org.itver.evalpro.persistencia.dao.dto.Maestro;
 
 /**
@@ -32,4 +33,5 @@ public interface ServicioPersistenciaMaestro{
     List<Maestro> buscarMaestros();
     List<Maestro> buscarMaestrosPorRango(int offset, int limite);
     List<Maestro> buscarMaestrosPorMateria(int idMateria);
+    List<Maestro> buscarMaestrosPorEstadoComentario(Comentario.Estado estado);
 }

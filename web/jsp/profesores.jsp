@@ -34,7 +34,7 @@
                 <tr id="${colors[i]}">
                     <td>
                         <c:set var="nombreProfesor" value="${maestro.nombre} ${maestro.apellidoPaterno} ${maestro.apellidoMaterno}"/>
-                        <a href="${root}/profesor-info?id=${maestro.id}&nombre=${nombreProfesor}">
+                        <a href="${root}/profesor-info?id=${maestro.idMaestro}&nombre=${nombreProfesor}">
                             <article><p>${nombreProfesor}</p></article>
                         </a>
                     </td>

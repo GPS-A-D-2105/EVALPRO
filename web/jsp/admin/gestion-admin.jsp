@@ -9,6 +9,7 @@
 <%
     pageContext.setAttribute("colors", new String[]{"tr1", "tr2", "tr3", "tr4", "tr5"}, pageContext.SESSION_SCOPE);
 %>
+<c:set var="i" value="${0}"/>
 <!DOCTYPE html>
 <html>
     <head>
@@ -43,7 +44,7 @@
                     <li><a href="${root}/carrera">CARRERAS</a></li>
                     <li><a href="${root}/materia">MATERIAS</a></li>
                     <li><a href="${root}/profesor">PROFESORES</a></li>
-                    <li><a href="#">...</a></li>
+                    <li><a href="${root}/admin">ADMIN</a></li>
                 </ul>
             </nav>
         </section>
@@ -54,8 +55,8 @@
             <c:forEach var="admin" items="${listaAdmins}">
                 <tr id="${colors[i]}">
                     <td>
-                        <c:set var="nombreAdmin" value="${admin.nombreAdmin} ${admin.apePaterno} ${admin.apeMaterno}"/>
-                        <a href="${root}/baja-admin?id=${admin.id}">
+                        <c:set var="nombreAdmin" value="${admin.nombre} ${admin.apellidoPaterno} ${admin.apellidoMaterno}"/>
+                        <a href="${root}/baja-admin?id=${admin.idAdmin}">
                             <article><p>${nombreAdmin}</p> 
                                 <img src="${root}/imagenes/trash.png" alt="Eliminar"/>
                             </article></a>

@@ -18,75 +18,50 @@
     <body>
         <%@include file="header.jsp" %>
         <div style="text-align: center; float: top">
-            <aside>
-                <div class="div-cabecera-caja">
-                    <header id="h-caja">
-                        <h3>Comentarios</h3>
-                    </header>
-                </div>
-                <section class="caja-comentarios">
+            <div id="cmnt-box">
+                <!--Cabecera de la caja de comentarios-->
+                <header>
+                    <h2>COMENTARIOS</h2>
+                </header>
+                <!--Sección para los comentarios-->
+                <section id="section-cmnts">
                     <c:forEach var="comentario" items="${comentarios}">
-                        <article class="cuadro-comentario">
+                        <article class="comment">
                             <table>
                                 <tr>
-                                    <td class="td-usuario" >${comentario.usuario}</td>
-                                    <td class="td-fecha">${comentario.registro}</td>
+                                    <td class="user">${comentario.usuario}</td>
+                                    <td class="date">${comentario.registro}</td>
                                 </tr>
                                 <tr>
-                                    <td class="td-contenido">
-                                        <div class="div-contenido">
-                                            ${comentario.contenido}
-                                            asdasdasdasdasdasdasdadsasdasdasdasdasdasdasdadsasdasdasdasdasdasdasdads
-                                        </div>
+                                    <td class="content" colspan="2">
+                                        ${comentario.contenido}
                                     </td>
                                 </tr>
                             </table>
                         </article>
                     </c:forEach>
-                    <article class="cuadro-comentario">
-                        <table>
-                            <tr>
-                                <td class="td-usuario" >USUARIO</td>
-                                <td class="td-fecha">FECHA</td>
-                            </tr>
-                            <tr>
-                                <td class="td-contenido">
-                                    <!--<div class="div-contenido">-->
-                                        CONTENIDOOOOOOOOOOOOOOOOOOOO y pues comento que no se que comentar respecto al maestro. Lorem ipsum dolor.
-
-                                    <!--</div>-->
-                                </td>
-                            </tr>
-                        </table>
-                    </article>
-                    <article class="cuadro-comentario">
-                        <table>
-                            <tr>
-                                <td class="td-usuario" >USUARIO</td>
-                                <td class="td-fecha">FECHA</td>
-                            </tr>
-                            <tr>
-                                <td class="td-contenido">
-                                    <div class="div-contenido">
-                                        CONTENIDOOOOOOOOOOOOOOOOOOOO y pues comento que no se que comentar respecto al maestro. Lorem ipsum dolor.
-                                        CONTENIDOOOOOOOOOOOOOOOOOOOO y pues comento que no se que comentar respecto al maestro. Lorem ipsum dolor.
-                                        CONTENIDOOOOOOOOOOOOOOOOOOOO y pues comento que no se que comentar respecto al maestro. Lorem ipsum dolor.
-                                    </div>
-                                </td>
-                            </tr>
-                        </table>
-                    </article>
                 </section>
-                <section class="form-comentario">
-                    <form action="${root}/comentario" method="POST">
-                        <input class="input-nombre" name="usuario" type="text" placeholder="Escribe tu nombre..."/>
-                        <textarea name="contenido-comentario" placeholder="Escribe aquí tu comentario...">
+                <!--Sección para publicar comentarios-->
+                <section id="section-post-cmnt">
+                    <form action="" method="POST">
+                        <input name="cmnt-autor" type="text" placeholder="Escribe tu nombre..."/>
+                        &nbsp;
+                        <select name="cmnt-carrer">
+                            <option value="default">Materia</option>
+                        </select>
+                        <select name="cmnt-subject">
+                            <option value="default">Carrera</option>
+                        </select>
+                        <br/>
+                        <br/>
+                        <textarea name="cmnt-content" placeholder="Escribe tu comentario...">
                         </textarea>
-                        <input class="input-enviar" type="submit" value="ENVIAR"/>
-                        <BR/>
+                        <br/>
+                        <br/>
+                        <input type="submit" value="ENVIAR"/>
                     </form>
                 </section>
-            </aside>
+            </div>
 
             <main style="float: left;">
                 <section id="section-datos-estadisticos">
@@ -144,7 +119,7 @@
                             <ul>
                                 <c:forEach var="materias" items="${materiasImpartidas}">
                                     <li class="materia">
-                                        ${materias.nombreMateria}
+                                        ${materias.nombre}
                                     </li>
                                 </c:forEach>
                             </ul>

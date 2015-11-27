@@ -51,9 +51,9 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Materia.findByNombreMateria", query = "SELECT m FROM Materia m WHERE m.nombre = :nombreMateria"),
     @NamedQuery(name = "Materia.findByRegistro", query = "SELECT m FROM Materia m WHERE m.registro = :registro"),
     @NamedQuery(name = "Materia.findByCreditos", query = "SELECT m FROM Materia m WHERE m.creditos = :creditos"),
-    @NamedQuery(name = "Materia.findByIdCarrera", query = "SELECT m FROM Materia m, CarreraMateria cm WHERE m.idMateria = cm.idMateria AND cm.idCarrera = :idCarrera ORDER BY m.nombre"),
+    @NamedQuery(name = "Materia.findByIdCarrera", query = "SELECT m FROM Materia m, CarreraMateria cm WHERE m.idMateria = cm.idMateria.idMateria AND cm.idCarrera.idCarrera = :idCarrera ORDER BY m.nombre"),
     @NamedQuery(name = "Materia.findByIdMaestro", 
-            query = "SELECT m FROM Materia m, CarreraMateria cm, Maestro ma, Reseña r WHERE ma.idMaestro = r.idMaestro AND r.idCarreraMateria = cm.idCarreraMateria AND cm.idMateria = m.idMateria AND ma.idMaestro = :idMaestro ORDER BY m.nombre")
+            query = "SELECT m FROM Materia m, CarreraMateria cm, Maestro ma, Reseña r WHERE ma.idMaestro = r.idMaestro.idMaestro AND r.idCarreraMateria.idCarreraMateria = cm.idCarreraMateria AND cm.idMateria.idMateria = m.idMateria AND ma.idMaestro = :idMaestro ORDER BY m.nombre")
 })
 public class Materia implements Serializable {
 

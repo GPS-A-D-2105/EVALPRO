@@ -26,6 +26,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
@@ -36,6 +37,7 @@ import javax.validation.constraints.Size;
  * @author Alfonso
  */
 @Entity
+@Table(name = "administrador")
 @NamedQueries({
     @NamedQuery(name = "Administrador.findAll", query = "SELECT a FROM Administrador a"),
     @NamedQuery(name = "Administrador.findByIdAdmin", query = "SELECT a FROM Administrador a WHERE a.idAdmin = :idAdmin"),
@@ -50,7 +52,6 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "Administrador.findByEstado", query = "SELECT a FROM Administrador a WHERE a.estado = :estado")})
 public class Administrador implements Serializable {
 
-  
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -236,7 +237,7 @@ public class Administrador implements Serializable {
 
     @Override
     public String toString() {
-        return "org.itver.evalpro.persistencia.dao.dto.Administrador_1[ idAdmin=" + idAdmin + " ]";
+        return "org.itver.evalpro.persistencia.dao.dto.Administrador[ idAdmin=" + idAdmin + " ]";
     }
   
 }

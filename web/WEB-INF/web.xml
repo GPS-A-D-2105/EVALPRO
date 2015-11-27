@@ -29,6 +29,9 @@
         <url-pattern>/admin/alta-admin</url-pattern>
         <url-pattern>/admin/gestion-admin</url-pattern>
         <url-pattern>/admin/baja-admin</url-pattern>
+        <url-pattern>/admin/gestion-comentarios</url-pattern>
+        <url-pattern>/admin/revisar-comentarios</url-pattern>
+        <url-pattern>/admin/revisar-comentarios-prof</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

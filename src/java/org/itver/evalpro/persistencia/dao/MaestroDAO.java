@@ -17,6 +17,7 @@
 package org.itver.evalpro.persistencia.dao;
 
 import java.util.List;
+import org.itver.evalpro.persistencia.dao.dto.Comentario;
 import org.itver.evalpro.persistencia.dao.dto.Maestro;
 
 /**
@@ -25,5 +26,6 @@ import org.itver.evalpro.persistencia.dao.dto.Maestro;
  */
 public interface MaestroDAO extends DataAccessObject<Maestro, Integer> {
 
-    List<Maestro> buscarPorMateria(Object idMateria);
+    List<Maestro> buscarPorMateria(Integer idMateria);
+    List<Maestro> buscarPorEstadoComentario(Comentario.Estado estado);
 }

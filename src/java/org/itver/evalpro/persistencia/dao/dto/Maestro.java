@@ -20,23 +20,18 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -54,15 +49,17 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Maestro.findByEmail", query = "SELECT m FROM Maestro m WHERE m.email = :email"),
     @NamedQuery(name = "Maestro.findByRegistro", query = "SELECT m FROM Maestro m WHERE m.registro = :registro"),
     @NamedQuery(name = "Maestro.findByG\u00e9nero", query = "SELECT m FROM Maestro m WHERE m.g\u00e9nero = :g\u00e9nero"),
-    @NamedQuery(name = "Maestro.findByMateria", 
-            query = "SELECT m FROM Maestro m, CarreraMateria cm, Materia ma, Reseña r WHERE m.idMaestro = r.idMaestro AND r.idCarreraMateria = cm.idCarreraMateria AND cm.idMateria = ma.idMateria AND ma.idMateria = :idMateria")
+    @NamedQuery(name = "Maestro.findByMateria",
+            query = "SELECT m FROM Maestro m, CarreraMateria cm, Materia ma, Reseña r WHERE m.idMaestro = r.idMaestro.idMaestro AND r.idCarreraMateria.idCarreraMateria = cm.idCarreraMateria AND cm.idMateria.idMateria = ma.idMateria AND ma.idMateria = :idMateria"),
+    @NamedQuery(name = "Maestro.findByEstadoComentario", query = "SELECT DISTINCT m FROM Maestro m, Reseña r, Comentario c WHERE m.idMaestro = r.idMaestro.idMaestro AND r.idReseña = c.idReseña.idReseña AND c.estado = :estado")
+
 })
 public class Maestro implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    private Integer idMaestro;
+    private int idMaestro;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 20)
@@ -84,7 +81,7 @@ public class Maestro implements Serializable {
     @NotNull
     @Size(min = 1, max = 10)
     private String género;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idMaestro", fetch = FetchType.LAZY)
+//    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idMaestro", fetch = FetchType.LAZY)
     private List<Reseña> reseñaList;
 
     public Maestro() {
@@ -164,26 +161,6 @@ public class Maestro implements Serializable {
 
     public void setReseñaList(List<Reseña> reseñaList) {
         this.reseñaList = reseñaList;
-    }
-
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (idMaestro != null ? idMaestro.hashCode() : 0);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Maestro)) {
-            return false;
-        }
-        Maestro other = (Maestro) object;
-        if ((this.idMaestro == null && other.idMaestro != null) || (this.idMaestro != null && !this.idMaestro.equals(other.idMaestro))) {
-            return false;
-        }
-        return true;
     }
 
     @Override

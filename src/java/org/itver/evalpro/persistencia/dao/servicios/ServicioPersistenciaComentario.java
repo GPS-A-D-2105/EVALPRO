@@ -32,4 +32,6 @@ public interface ServicioPersistenciaComentario {
     List<Comentario> buscarComentarios();
     List<Comentario> buscarComentariosPorRango(int offset,int limite);
     List<Comentario> buscarComentariosPorMaestro(int idMaestro);
+    List<Comentario> buscarComentariosPorEstado(Comentario.Estado estado);
+    List<Comentario> buscarComentariosPorEstadoDeProf(int idMaestro, Comentario.Estado estado);
 }

@@ -24,6 +24,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.itver.evalpro.persistencia.dao.dto.Administrador;
+import org.itver.evalpro.persistencia.dao.dto.Comentario;
+import org.itver.evalpro.persistencia.dao.dto.Maestro;
 import org.itver.evalpro.persistencia.dao.servicios.ServicioPersistencia;
 
 /**
@@ -45,18 +47,22 @@ public class ServletAdministrador extends HttpServlet {
             throws ServletException, IOException {
 
         String servletPath = request.getServletPath();
-        System.out.println(servletPath);
+        System.out.println("Atendiendo petición para " + servletPath);
         RequestDispatcher dispatcher = null;
         String urlForward = "/";
+        ServicioPersistencia sp = null;
         switch (servletPath) {
             case "/admin":
+                sp = new ServicioPersistencia();
+                List<Maestro> profesores = sp.buscarMaestrosPorEstadoComentario(Comentario.Estado.ESPERA);
+                request.setAttribute("profesores", profesores);
                 urlForward = "/jsp/admin/workspace.jsp";
                 break;
             case "/admin/alta-admin":
                 urlForward = "/jsp/admin/alta-admin.jsp";
                 break;
             case "/admin/gestion-admin":
-                ServicioPersistencia sp = new ServicioPersistencia();
+                sp = new ServicioPersistencia();
                 List<Administrador> admins = sp.buscarAdministradores();
                 request.setAttribute("listaAdmins", admins);
                 urlForward = "/jsp/admin/gestion-admin.jsp";
@@ -65,12 +71,37 @@ public class ServletAdministrador extends HttpServlet {
             case "/admin/baja-admin":
                 int idAdmin = Integer.parseInt(request.getParameter("id"));
                 Administrador admin = new Administrador(idAdmin);
-                ServicioPersistencia _sp = new ServicioPersistencia();
-                _sp.eliminarAdministrador(admin);
-                _sp.cerrarServicio();
-                List<Administrador> adminss = _sp.buscarAdministradores();
+                sp = new ServicioPersistencia();
+                sp.eliminarAdministrador(admin);
+                sp.cerrarServicio();
+                List<Administrador> adminss = sp.buscarAdministradores();
                 request.setAttribute("listaAdmins", adminss);
                 urlForward = "/jsp/admin/gestion-admin.jsp";
+                break;
+            case "/admin/gestion-comentarios":
+                System.out.println("Mostrando los comentarios más recientes agregados.");
+                sp = new ServicioPersistencia();
+                List<Comentario> comentarios = sp.buscarComentariosPorEstado(Comentario.Estado.ESPERA);
+                request.setAttribute("comentarios", comentarios);
+                urlForward = "/jsp/admin/nuevos-comentarios.jsp";
+                break;
+            case "/admin/revisar-comentarios":
+                String estadoString = request.getParameter("estado").toUpperCase();
+                int idComentario = Integer.parseInt(request.getParameter("idComentario"));
+                Comentario.Estado estado = Comentario.Estado.valueOf(estadoString);
+                sp = new ServicioPersistencia();
+                Comentario comentario = sp.buscarComentarioPorId(idComentario);
+                comentario.setEstado(estado.toString());
+                sp.actualizarComentario(comentario);
+                urlForward = "/admin/gestion-comentarios";
+                break;
+            case "/admin/revisar-comentarios-prof":
+                int idMaestro = Integer.parseInt(request.getParameter("idMaestro"));
+                sp = new ServicioPersistencia();
+                List<Comentario> comentarios_ = 
+                        sp.buscarComentariosPorEstadoDeProf(idMaestro, Comentario.Estado.ESPERA);
+                request.setAttribute("comentarios", comentarios_);
+                urlForward = "/jsp/admin/nuevos-comentarios.jsp";
                 break;
         }
         dispatcher = request.getRequestDispatcher(urlForward);
@@ -91,6 +122,8 @@ public class ServletAdministrador extends HttpServlet {
 
         String servletPath = request.getServletPath();
         RequestDispatcher dispatcher = null;
+        ServicioPersistencia sp;
+        Administrador admin;
         String urlForward = "/";
         switch (servletPath) {
 
@@ -99,9 +132,9 @@ public class ServletAdministrador extends HttpServlet {
                 String pass = request.getParameter("pass");
                 System.out.println("user = " + user);
                 System.out.println("pass = " + pass);
-                ServicioPersistencia _sp = new ServicioPersistencia();
-                Administrador admin = _sp.buscarAdministradorPorId(user);
-                _sp.cerrarServicio();
+                sp = new ServicioPersistencia();
+                admin = sp.buscarAdministradorPorId(user);
+                sp.cerrarServicio();
                 if (admin != null && admin.getPassword().equals(pass)) {
                     urlForward = "/jsp/admin/workspace.jsp";
                     break;
@@ -126,22 +159,48 @@ public class ServletAdministrador extends HttpServlet {
                 System.out.println("apMaterno = " + apMaterno);
                 System.out.println("email = " + email);
                 System.out.println("password = " + password);
-                Administrador admin_ = new Administrador();
-                admin_.setNumeroControl(noControl);
-                admin_.setNombre(nombre);
-                admin_.setApellidoPaterno(apPaterno);
-                admin_.setApellidoMaterno(apMaterno);
-                admin_.setPassword(password);
-                admin_.setNumeroControl(noControl);
-                admin_.setCorreo(email);;
-                ServicioPersistencia sp = new ServicioPersistencia();
-                sp.persisitirAdministrador(admin_);
+                admin = new Administrador();
+                admin.setNumeroControl(noControl);
+                admin.setNombre(nombre);
+                admin.setApellidoPaterno(apPaterno);
+                admin.setApellidoMaterno(apMaterno);
+                admin.setUserName(noControl);
+                admin.setPassword(password);
+                admin.setNumeroControl(noControl);
+                admin.setCorreo(email);
+                admin.setRol("administrador");
+                sp = new ServicioPersistencia();
+                sp.persisitirAdministrador(admin);
                 sp.cerrarServicio();
                 urlForward = "/jsp/admin/alta-admin.jsp";
                 break;
         }
         dispatcher = request.getRequestDispatcher(urlForward);
         dispatcher.forward(request, response);
+    }
+
+    @Override
+    protected void doPut(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+//        String servletPath = request.getServletPath();
+//        RequestDispatcher dispatcher = null;
+//        ServicioPersistencia sp;
+//        String urlFordward = "/";
+//        switch (servletPath) {
+//            case "/admin/revisar-comentario":
+//                String estadoString = request.getParameter("estado").toUpperCase();
+//                int idComentario = Integer.parseInt(request.getParameter("idComentario"));
+//                Comentario.Estado estado = Comentario.Estado.valueOf(estadoString);
+//                sp = new ServicioPersistencia();
+//                Comentario comentario = sp.buscarComentarioPorId(idComentario);
+//                comentario.setEstado(estado.toString());
+//                sp.actualizarComentario(comentario);
+//                urlFordward = "/admin/gestion-comentarios";
+//                break;
+//        }
+//        
+//        dispatcher = request.getRequestDispatcher(urlFordward);
+//        dispatcher.forward(request, response);
     }
 
     /**

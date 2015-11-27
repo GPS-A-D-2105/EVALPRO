@@ -92,6 +92,11 @@ public class ServicioPersistencia
     }
 
     @Override
+    public List<Maestro> buscarMaestrosPorEstadoComentario(Comentario.Estado estado) {
+        return mtroDAO.buscarPorEstadoComentario(estado);
+    }    
+
+    @Override
     public boolean persistirMateria(Materia m) {
         return mtraDAO.persistir(m);
     }
@@ -166,6 +171,16 @@ public class ServicioPersistencia
         return cmntDAO.buscarPorIdMaestro(idMaestro);
     }
 
+    @Override
+    public List<Comentario> buscarComentariosPorEstado(Comentario.Estado estado) {
+        return cmntDAO.buscarPorEstado(estado);
+    }    
+
+    @Override
+    public List<Comentario> buscarComentariosPorEstadoDeProf(int idMaestro, Comentario.Estado estado) {
+        return cmntDAO.buscarComentsProfsEstado(idMaestro, estado);
+    }
+    
     @Override
     public boolean persistirCarrera(Carrera c) {
         return crraDAO.persistir(c);
