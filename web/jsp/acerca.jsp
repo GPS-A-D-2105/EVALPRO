@@ -11,6 +11,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <link href="${root}/css/principal.css" rel="stylesheet" />
         <link href="${root}/css/acerca.css" rel="stylesheet" />
+        <link href="${root}/css/header.css" rel="stylesheet"/>
     </head>
     <body>
         <%@include file="header.jsp" %>

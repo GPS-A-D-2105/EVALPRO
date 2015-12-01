@@ -8,32 +8,58 @@
         <servlet-class>org.itver.evalpro.servlet.Servlet</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>TestServlet</servlet-name>
-        <servlet-class>org.itver.evalpro.servlet.TestServlet</servlet-class>
+        <servlet-name>ServletAdmin</servlet-name>
+        <servlet-class>org.itver.evalpro.servlet.ServletAdministrador</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>Servlet</servlet-name>
-        <url-pattern>/carrera</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>Servlet</servlet-name>
-        <url-pattern>/login-admin</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>Servlet</servlet-name>
+        <!--Endpoints para las funciones comunes del sistema-->
+        <url-pattern>/materia</url-pattern>
         <url-pattern>/acerca</url-pattern>
+        <url-pattern>/carrera</url-pattern>
+        <url-pattern>/profesor</url-pattern>
+        <url-pattern>/profesor-info</url-pattern>
+        <url-pattern>/comentario</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>Servlet</servlet-name>
-        <url-pattern>/materias</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>TestServlet</servlet-name>
-        <url-pattern>/TestServlet</url-pattern>
+        <servlet-name>ServletAdmin</servlet-name>
+        <!--Endpoints para las funciones de administrador-->
+        <url-pattern>/admin</url-pattern>
+        <url-pattern>/admin/login-admin</url-pattern>
+        <url-pattern>/admin/alta-admin</url-pattern>
+        <url-pattern>/admin/gestion-admin</url-pattern>
+        <url-pattern>/admin/baja-admin</url-pattern>
+        <url-pattern>/admin/gestion-comentarios</url-pattern>
+        <url-pattern>/admin/revisar-comentarios</url-pattern>
+        <url-pattern>/admin/revisar-comentarios-prof</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
             30
         </session-timeout>
     </session-config>
+    <security-constraint>
+        <display-name>AdminConstrain</display-name>
+        <web-resource-collection>
+            <web-resource-name>Funciones de administrador</web-resource-name>
+            <description/>
+            <url-pattern>/admin/*</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <description/>
+            <role-name>administrador</role-name>
+        </auth-constraint>
+    </security-constraint>
+    <login-config>
+        <auth-method>BASIC</auth-method>
+        <realm-name>evalproRealm</realm-name>
+    </login-config>
+    <security-role>
+        <description/>
+        <role-name>administrador</role-name>
+    </security-role>
+    <security-role>
+        <description/>
+        <role-name>moderador</role-name>
+    </security-role>
 </web-app>
