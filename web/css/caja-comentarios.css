@@ -1,0 +1,123 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 17-nov-2015, 21:53:35
+    Author     : vrebo
+*/
+
+/*body{
+    text-align: center;
+    margin-right: 100px;
+    margin-left: 100px;
+    background-color: beige;
+    font-family: "Arial"
+}*/
+
+
+div#cmnt-box{
+    font-family: "Arial";
+    text-align: center;
+    min-width: 300px;
+    max-width: 600px;
+    width: 60%;
+}
+
+div#cmnt-box header{
+    background-color: #2BB673;
+    color: white;
+    min-height: 50px;
+    max-width: 100%;
+    height: 60px;
+    margin: 0px;
+    line-height: 60px;
+    font-weight: bold;
+}
+
+section#section-cmnts{
+    background-color: #D9D9D9;
+    height: 400px;
+    margin-bottom: 30px;
+    padding: 30px 40px 30px 30px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+
+section#section-post-cmnt{
+    background-color: #D9D9D9;
+    max-height: 250px;
+    min-height: 250px;
+/*    height: 100px;*/
+    padding: 15px;
+}
+
+section#section-post-cmnt input[type=text]{
+    min-width: 50%;
+    width: 30%;
+    height: 20px;
+    border: #D9D9D9;
+}
+
+section#section-post-cmnt input[type=submit]{
+    min-width: 30%;
+    height: 30px;
+    border-radius: 5px;
+    border: #0F75BC;
+    background-color: #0F75BC;
+    color: white;
+    font-weight: bold;
+    position: relative;
+    left: 33%;
+    
+}
+
+section#section-post-cmnt textarea{
+    max-width: 95%;
+    width: 95%;
+    height: 150px;
+    min-height: 150px;
+    border: #D9D9D9;
+}
+
+article.comment{
+    background-color: white;
+    padding: 15px;
+    margin-bottom: 30px;
+}
+
+article.comment table{    
+    height: fit-content;
+    width: 100%;
+}
+
+td.user, td.remitente span{
+    color: #3A75BC;
+    text-align: left;
+    font-weight: bold;
+}
+
+td.date{
+    color: #8CC63F;
+    font-weight: bold;
+    text-align: right;
+}
+
+td.content{
+    padding: 30px 20px 20px 6px;
+    font-size: 16px;
+    text-align: justify;
+    /*Usar solo en caso de verdadera necesidad*/
+    /*word-break: break-all;*/
+    word-wrap: break-word;
+}
+
+td.remitente{
+    text-align: left;
+    font-weight: bold;
+}
+
+div#cmnt-box img{
+    max-width: 20px;
+}

@@ -24,10 +24,11 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import org.itver.evalpro.dto.Administrador;
-import org.itver.evalpro.dto.Carrera;
-import org.itver.evalpro.dto.Materia;
-import org.itver.evalpro.servicio.ServicioPersistencia;
+import org.itver.evalpro.persistencia.dao.dto.Carrera;
+import org.itver.evalpro.persistencia.dao.dto.Comentario;
+import org.itver.evalpro.persistencia.dao.dto.Maestro;
+import org.itver.evalpro.persistencia.dao.dto.Materia;
+import org.itver.evalpro.persistencia.dao.servicios.ServicioPersistencia;
 import org.jboss.logging.Logger;
 
 /**
@@ -62,7 +63,7 @@ public class Servlet extends HttpServlet {
             out.println("</html>");
         }
     }
-    
+
     protected void badAuthentication(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -81,7 +82,6 @@ public class Servlet extends HttpServlet {
         }
     }
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
      *
@@ -94,32 +94,91 @@ public class Servlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String contextPath = request.getServletPath();
-        
         System.out.println("Atendiendo petición http mediante método GET");
         System.out.println(request.getRequestURI());
         RequestDispatcher dispatcher = null;
-        if (request.getRequestURI().contains("carrera")) {
-            System.out.println("Despachando petición de /carrera");
-            List<Carrera> carreras = new ServicioPersistencia().buscarTodasCarreras();
-            System.out.println("Carreras consultadas");
-            request.setAttribute("listaCarreras", carreras);
-            dispatcher = request.getRequestDispatcher("/jsp/carreras.jsp");
-        }else if(contextPath.contains("materias")){
-            System.out.println("Despachando petición de /materia");
-            String id = request.getParameter("idCarrera");
-            System.out.println("id = " + id);
-            int idCarrera = Integer.parseInt(id);
-            List<Materia> materias = new ServicioPersistencia().buscarMateriaPorCarrera(idCarrera);
-            request.setAttribute("listaMaterias", materias);
-            System.out.println("Redireccionando a materias.jsp");
-            dispatcher = request.getRequestDispatcher("/jsp/materias.jsp");
-        }else if(contextPath.contains("acerca")){
-            dispatcher = request.getRequestDispatcher("/jsp/acerca.jsp");
-        }else{
-            Logger.getLogger(Servlet.class).debug("No se encuentra el recurso solicitado");
-            processRequest(request, response);
+        ServicioPersistencia sp;
+        switch (contextPath) {
+            case "/carrera":
+                System.out.println("Despachando petición de /carrera");
+                List<Carrera> carreras = new ServicioPersistencia().buscarCarreras();
+                System.out.println("Carreras consultadas");
+                request.setAttribute("listaCarreras", carreras);
+                dispatcher = request.getRequestDispatcher("/jsp/carreras.jsp");
+                break;
+
+            case "/materia":
+                System.out.println("Despachando petición de /materia");
+                List<Materia> listaMaterias;
+                String id = request.getParameter("idCarrera");
+                sp = new ServicioPersistencia();
+                if (id != null) {
+                    int idCarrera = Integer.parseInt(id);
+                    listaMaterias = sp.buscarMateriasPorCarrera(idCarrera);
+                } else {
+                    listaMaterias = sp.buscarMaterias();
+                }
+                sp.cerrarServicio();
+                request.setAttribute("listaMaterias", listaMaterias);
+                System.out.println("Redireccionando a materias.jsp");
+                dispatcher = request.getRequestDispatcher("/jsp/materias.jsp");
+                break;
+            case "/acerca":
+                dispatcher = request.getRequestDispatcher("/jsp/acerca.jsp");
+                break;
+            case "/admin":
+                dispatcher = request.getRequestDispatcher("/jsp/admin/login-admin.jsp");
+                break;
+            case "/profesor":
+                String sIdProf = request.getParameter("idMateria");
+                List<Maestro> listaMaestros;
+                sp = new ServicioPersistencia();
+                if (sIdProf == null) {
+                    System.out.println("Mostrando lista de maestros.");
+                    listaMaestros = sp.buscarMaestros();
+                } else {
+                    int idMateria = Integer.parseInt(sIdProf);
+                    listaMaestros = sp.buscarMaestrosPorMateria(idMateria);
+                    String sNombreMateria = request.getParameter("nombreMateria");
+                    request.setAttribute("nombreMateria", sNombreMateria);
+                    request.setAttribute("tipoConsulta", 1);
+                }
+                sp.cerrarServicio();
+                request.setAttribute("listaMaestros", listaMaestros);
+                dispatcher = request.getRequestDispatcher("/jsp/profesores.jsp");
+                break;
+
+            case "/profesor-info":
+
+                String nombreProfesor = request.getParameter("nombre");
+                String sIdMaestro = request.getParameter("id");
+                int idMaestro = Integer.parseInt(sIdMaestro);
+                sp = new ServicioPersistencia();
+                List<Materia> materiasImpartidas = sp.buscarMateriasPorMaestro(idMaestro);
+                List<Comentario> comentarios = sp.buscarComentariosPorMaestro(idMaestro);
+                sp.cerrarServicio();
+                double[] califs = {0, 0, 0};
+
+                for (Comentario comentario : comentarios) {
+                    califs[0] += comentario.getCalifAsist();
+                    califs[1] += comentario.getCalifDomi();
+                    califs[2] += comentario.getCalifCalid();
+                }
+                califs[0] /= comentarios.size();
+                califs[1] /= comentarios.size();
+                califs[2] /= comentarios.size();
+                
+                request.setAttribute("nombreProfesor", nombreProfesor);
+                request.setAttribute("materiasImpartidas", materiasImpartidas);
+                request.setAttribute("calificaciones", califs);
+                request.setAttribute("comentarios", comentarios);
+                dispatcher = request.getRequestDispatcher("/jsp/profesor-info.jsp");
+                break;
+            default:
+                Logger.getLogger(Servlet.class).debug("No se encuentra el recurso solicitado");
+                processRequest(request, response);
+                return;
         }
-        
         dispatcher.forward(request, response);
     }
 
@@ -135,17 +194,18 @@ public class Servlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         System.out.println("Atendiendo petición http mediante método POST");
-        
-        String user = request.getParameter("user");
-        String pass = request.getParameter("pass");
-        System.out.println("user = " + user);
-        System.out.println("pass = " + pass);
-        Administrador admin = new ServicioPersistencia().buscarAdminPorId(user);
-        if(admin != null && admin.getPassword().equals(pass)){
-            processRequest(request, response);
-            return;
+        String contextPath = request.getServletPath();
+        System.out.println("contextPath = " + contextPath);
+        RequestDispatcher dispatcher = null;
+        switch (contextPath) {
+            case "/comentario":
+                String usuario = request.getParameter("usuario");
+                String contenido = request.getParameter("contenido-comentario");
+                System.out.println("usuario = " + usuario);
+                System.out.println("contenido = " + contenido);
+                break;
         }
-        badAuthentication(request, response);
+        dispatcher.forward(request, response);
     }
 
     /**

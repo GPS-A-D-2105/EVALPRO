@@ -1,0 +1,121 @@
+/*
+Copyright (C) 2015 vrebo
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
+/* 
+    Created on : 16-nov-2015, 2:45:21
+    Author     : vrebo
+*/
+
+/*section#header{
+    width: inherit;
+}*/
+
+section#header{
+    background-color: #0B9444;
+    height: 150px;
+    display: block;
+}
+
+img#logo{
+    max-height: 200px;
+    max-width: 200px;
+    margin-top: 20px;
+}
+
+div#logo-eslogan{
+    margin: 0px 20px 20px 40px;
+    text-align:center;
+    float:left;
+    color:#8CC63F;
+    font-weight: bold;
+}
+nav.nav-bar{
+    height: 70px;
+    float: bottom;
+    margin-bottom: 20px;
+}
+
+nav.nav-bar ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    height: inherit;
+}
+
+nav.nav-bar ul li {
+    float: left;
+    width: 20%;
+    height: 100%;
+}
+
+nav.nav-bar ul li a{
+    display: block;
+    font-weight: bold;
+    color: #FFFFFF;
+    background-color: #2BB673;
+    text-align: center;
+    padding: 25px;
+    text-decoration: none;
+    text-transform: uppercase;
+    font-size: large;
+}
+
+nav.nav-bar ul li a:hover, nav.nav-bar ul li a:active{
+    color: #FFFFFF;
+    text-decoration: none;
+    background-color: #0F75BC;
+}
+
+nav.nav-bar-2{
+    float:right;
+    margin: 20px;
+}
+
+nav.nav-bar-2 form input{
+    height: 30px;
+    padding: 3px;
+}
+
+nav.nav-bar-2 ul {
+    float: right;
+    list-style-type: none;
+    margin: 3px;
+    padding: 0px;
+    overflow: hidden;
+    height: inherit;
+}
+
+nav.nav-bar-2 ul li {
+    float: left;
+    /*width: 20%;*/
+    height: 100%;
+}
+
+nav.nav-bar-2 ul li a{
+    display: block;
+    font-weight: bold;
+    color: #FFFFFF;
+    text-align: center;
+    padding: 5px;
+    text-decoration: none;
+    text-transform: uppercase;
+    font-size: larger;
+}
+
+nav.nav-bar-2 ul li a:hover{
+    color:#8CC63F;
+}

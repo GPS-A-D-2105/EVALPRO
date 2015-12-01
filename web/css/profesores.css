@@ -1,21 +1,64 @@
-﻿ tr#color{
+﻿h1{
+    margin-top:50px;
+    font-size:32px;
+    color:#13A89E;
+    text-align:center;
+}
+table{
+    font-size:20px;
+    font-weight:bold;
+    margin-left:75px;
+    margin-top:60px;
 
-  background-color:#2BB673;
 }
 
- #contenido{
+a{
+    text-decoration:none;
+    color:white;}
+tr{
+    width:auto;
+    height:auto;
+}
+td{
 
- }
+    width:740px;
+    height:50px;
+}
+article{
 
- h1{
-        color:#13A89E;
-    text-align:center;
-    font-size:32px;
-    padding-top:60px;
- }
+    width:740px;
+    height:50px;
+}
 
-table{
-    border:black;
-    margin-top:60px;
-    margin-left:70px;
+
+#tr2{
+    background-color:#0F75BC;
+}
+#tr3{
+    background-color:#13A89E;
+}
+#tr4{
+    background-color:#2BB673;
+}
+#tr5{
+    background-color:#8CC63F;
+}
+#tr1{
+    background-color:#0B9444;
+}
+
+p{
+    margin-left:10px;
+    margin-top:5px;
+    font-size:20px;
+}
+
+#contenedor{
+    height:auto;
+
+}
+footer{
+    margin-top:500px;
+    position:relative;
+
 }
