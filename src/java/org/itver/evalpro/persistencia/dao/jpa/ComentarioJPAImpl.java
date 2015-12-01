@@ -26,8 +26,7 @@ import org.itver.evalpro.persistencia.dao.dto.Comentario;
  * @author vrebo
  */
 class ComentarioJPAImpl
-        extends GenericJPAImpl<Comentario, Integer>
-        implements ComentarioDAO {
+        extends GenericJPAImpl<Comentario, Integer> implements ComentarioDAO {
 
     public ComentarioJPAImpl() {
         super(Comentario.class);
