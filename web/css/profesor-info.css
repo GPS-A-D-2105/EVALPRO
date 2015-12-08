@@ -55,36 +55,6 @@ li.materia{
     text-transform: uppercase;
 }
 
-
-
-
-/*
-Copyright (C) 2015 vrebo
-
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program.  If not, see <http://www.gnu.org/licenses/>.
-*/
-/* 
-    Created on : 15-nov-2015, 22:32:35
-    Author     : vrebo
-*/
-/*body{
-    text-align: center;
-}*/
-/*main{
-    width: inherit;
-    text-align: center;
-}*/
 section#section-datos-estadisticos{
     width: inherit;
     text-align: center;
@@ -122,8 +92,7 @@ canvas#chart-area{
 
 div.div-cabecera-caja{
     height: 50px;
-    font-weight: bold;
-    font-size: large;
+    font-weight: bold;    
     vertical-align: middle;
     text-align: center;
     color:#ffffff;
@@ -135,16 +104,16 @@ div.div-cabecera-caja{
 /*Estilos para caja de comentarios*/
 div#cmnt-box{
     min-width: 300px;
-    max-width: 400px;
-    width: 40%;
-    float: right;
+    max-width: fit-content;
+    width: available;
+    margin: auto;
+    /*float: right;*/
 }
 
 div#cmnt-box header h2{
     background-color: #2BB673;
     color: white;
     min-height: 50px;
-    max-width: 100%;
     height: 60px;
     margin: 0px;
     line-height: 60px;
@@ -162,15 +131,15 @@ section#section-cmnts{
 
 section#section-post-cmnt{
     background-color: #D9D9D9;
-    max-height: 250px;
+    max-height: fit-content;
     min-height: 250px;
 /*    height: 100px;*/
     padding: 15px;
 }
 
 section#section-post-cmnt input[type=text]{
-    min-width: 50%;
-    width: 30%;
+    width: 95%;
+    padding: 5px;
     height: 20px;
     border: #D9D9D9;
 }
@@ -185,10 +154,11 @@ section#section-post-cmnt input[type=submit]{
     font-weight: bold;
     position: relative;
     left: 33%;
-    
 }
 
 section#section-post-cmnt textarea{
+    margin: 10px;
+    padding: 5px;
     max-width: 95%;
     width: 95%;
     height: 150px;
@@ -232,3 +202,81 @@ td.remitente{
     font-weight: bold;
 }
 
+/*Estilos para la caja de evaluación*/
+section#section-pts td p{
+    font-size:12px;
+    color:white;
+    font-family:Arial;
+    font-weight:bold;
+}
+
+section#section-pts div#instruccion {
+    width:available;
+    height:50px;
+    background-color:#2BB673;
+    margin-left:10px;
+}
+
+section#section-pts div#instruccion h5{
+    padding-top:5px;
+    margin-top:10px;
+    margin-left:15px;
+    text-align:center;
+    font-size:18px;
+    color:white;
+    font-family:Arial;
+    font-weight:bold;
+}
+
+section#section-pts td{
+    padding-left:10px;
+}
+
+section#section-pts td input{
+    width:25px;
+    height:25px;
+    color:black;
+}
+
+section#section-pts div#tresdivs{
+    margin-top:30px;
+}
+
+section#section-pts div#tresdivs div {
+    border-radius:10px;
+    width: 120px;
+    height:65px;
+    margin-left:8px;
+}
+
+section#section-pts div#tresdivs div#A{
+    background-color:#8CC63F;
+    display:inline-block;
+}
+section#section-pts div#tresdivs div#DT{
+    background-color:#13A89E;
+    display:inline-block;
+}
+section#section-pts div#tresdivs div#CE{
+    background-color:#0F75BC;
+    margin-right:8px;
+    display:inline-block;
+}
+
+section#section-pts input#enviar{
+    background-color:#2BB673;
+    width:85px;
+    height:35px;
+    border-radius:5px;
+    color:white;
+    font-weight:bold;
+    font-family:Arial;
+/*    position: relative;
+    right: 0px;*/
+    margin: 10px;
+    /*float: right;*/
+}
+div#CE table, div#DT table, div#A table{
+    margin-top:20px;
+    margin-right:10px;
+}

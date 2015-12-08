@@ -18,40 +18,37 @@
         <!--<link href="${root}/css/login-admin.css" rel="stylesheet" />-->
         <link href="${root}/css/header.css" rel="stylesheet"/>
         <link href="${root}/css/formulario.css" rel="stylesheet"/>
+        <style>
+            body{
+                margin: auto;
+                width: 80%;
+                background-color: #0B9444;
+            }
+            nav{
+                float: top;
+                text-align: right;
+            }
+        </style>
     </head>
-    <body><section id="creadores">
-            <nav id="opciones_pagina">
-                <a href="${root}">Inicio</a>
-                <a href="${root}/jsp/acerca.jsp">Acerca</a>
-                <a href="${root}/jsp/login-admin.jsp"> Administradores</a>
-            </nav>
-        </section>
-
-        <!--        <section id="contenido"><section id="logo">
-                        <img src="${root}/imagenes/EvalPro.png" alt="Evalpro logo"/>
-                    </section>-->
-            <!--            <form action="${root}/login-admin" method="POST">
-                            <label for="user-id">USUARIO:</label>
-                            <input class="textfield" type="text" id="user-id" name="user"/>
-                            <label for="user-pass">CONTRASEÑA:</label>
-                            <input class="textfield" type="password" id="user-pass" name="pass"/>
-                            <br/><br/>
-                            <input class="button" type="button" value="REGISTRAR"/>
-                            <input class="button" type="submit" value="INICIAR"/>
-                        </form>-->
+    <body>
+        <nav id="opciones_pagina">            
+            <a href="${root}">Inicio</a>
+            <a href="${root}/jsp/acerca.jsp">Acerca</a>
+            <!--<a href="${root}/jsp/login-admin.jsp"> Administradores</a>-->
+        </nav>
         <div id="login">
             <img src="${root}/imagenes/EvalPro.png" alt="Evalpro"/>            
             <form class="form-horizontal" role="form" action="j_security_check" method="POST">
                 <div class="form-group">
                     <label class="control-label col-sm-2" for="j_username">USUARIO:</label>
                     <div class="col-sm-10">
-                        <input type="text" class="form-control" id="j_username" placeholder="Ingresa tu username" required>
+                        <input type="text" class="form-control" name="j_username" placeholder="Ingresa tu username" required>
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="control-label col-sm-2" for="j_password">CONTRASEÑA:</label>
                     <div class="col-sm-10">
-                        <input type="password" class="form-control" id="j_password" placeholder="Ingresa tu contraseña" required>
+                        <input type="password" class="form-control" name="j_password" placeholder="Ingresa tu contraseña" required>
                     </div>
                 </div>
                 <div class="form-group">

@@ -17,6 +17,7 @@
 package org.itver.evalpro.servlet;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -24,9 +25,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.itver.evalpro.persistencia.dao.dto.Administrador;
+import org.itver.evalpro.persistencia.dao.dto.Carrera;
 import org.itver.evalpro.persistencia.dao.dto.Comentario;
 import org.itver.evalpro.persistencia.dao.dto.Maestro;
-import org.itver.evalpro.persistencia.dao.servicios.ServicioPersistencia;
+import org.itver.evalpro.persistencia.dao.dto.Materia;
+import org.itver.evalpro.persistencia.servicio.ServicioPersistencia;
 
 /**
  *
@@ -45,18 +48,31 @@ public class ServletAdministrador extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
         String servletPath = request.getServletPath();
         System.out.println("Atendiendo petición para " + servletPath);
         RequestDispatcher dispatcher = null;
         String urlForward = "/";
+        request.setAttribute("isAdmin", 1);
         ServicioPersistencia sp = null;
         switch (servletPath) {
+            case "/admin/logout":
+                request.logout();
+                urlForward = "/evalpro/welcome";
+                response.sendRedirect(urlForward);
+                return;
             case "/admin":
                 sp = new ServicioPersistencia();
-                List<Maestro> profesores = sp.buscarMaestrosPorEstadoComentario(Comentario.Estado.ESPERA);
+                List<Maestro> profesores = 
+                        sp.buscarMaestrosPorEstadoComentario(Comentario.Estado.ESPERA);
+                sp.cerrarServicio();
                 request.setAttribute("profesores", profesores);
                 urlForward = "/jsp/admin/workspace.jsp";
+                break;
+            case "/admin/alta-materia":
+                urlForward = "/jsp/admin/alta-materia.jsp";
+                break;
+            case "/admin/alta-carrera":
+                urlForward = "/jsp/admin/alta-carrera.jsp";
                 break;
             case "/admin/alta-admin":
                 urlForward = "/jsp/admin/alta-admin.jsp";
@@ -64,17 +80,17 @@ public class ServletAdministrador extends HttpServlet {
             case "/admin/gestion-admin":
                 sp = new ServicioPersistencia();
                 List<Administrador> admins = sp.buscarAdministradores();
+                sp.cerrarServicio();
                 request.setAttribute("listaAdmins", admins);
                 urlForward = "/jsp/admin/gestion-admin.jsp";
-                sp.cerrarServicio();
                 break;
             case "/admin/baja-admin":
                 int idAdmin = Integer.parseInt(request.getParameter("id"));
                 Administrador admin = new Administrador(idAdmin);
                 sp = new ServicioPersistencia();
                 sp.eliminarAdministrador(admin);
-                sp.cerrarServicio();
                 List<Administrador> adminss = sp.buscarAdministradores();
+                sp.cerrarServicio();
                 request.setAttribute("listaAdmins", adminss);
                 urlForward = "/jsp/admin/gestion-admin.jsp";
                 break;
@@ -82,6 +98,7 @@ public class ServletAdministrador extends HttpServlet {
                 System.out.println("Mostrando los comentarios más recientes agregados.");
                 sp = new ServicioPersistencia();
                 List<Comentario> comentarios = sp.buscarComentariosPorEstado(Comentario.Estado.ESPERA);
+                sp.cerrarServicio();
                 request.setAttribute("comentarios", comentarios);
                 urlForward = "/jsp/admin/nuevos-comentarios.jsp";
                 break;
@@ -93,13 +110,15 @@ public class ServletAdministrador extends HttpServlet {
                 Comentario comentario = sp.buscarComentarioPorId(idComentario);
                 comentario.setEstado(estado.toString());
                 sp.actualizarComentario(comentario);
+                sp.cerrarServicio();
                 urlForward = "/admin/gestion-comentarios";
                 break;
             case "/admin/revisar-comentarios-prof":
                 int idMaestro = Integer.parseInt(request.getParameter("idMaestro"));
                 sp = new ServicioPersistencia();
-                List<Comentario> comentarios_ = 
-                        sp.buscarComentariosPorEstadoDeProf(idMaestro, Comentario.Estado.ESPERA);
+                List<Comentario> comentarios_
+                        = sp.buscarComentariosPorEstadoDeProf(idMaestro, Comentario.Estado.ESPERA);
+                sp.cerrarServicio();
                 request.setAttribute("comentarios", comentarios_);
                 urlForward = "/jsp/admin/nuevos-comentarios.jsp";
                 break;
@@ -119,14 +138,39 @@ public class ServletAdministrador extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
+        System.out.println("Atendiendo petición en ServletAdministrador con el método POST");
         String servletPath = request.getServletPath();
+        request.setAttribute("isAdmin", 1);
         RequestDispatcher dispatcher = null;
         ServicioPersistencia sp;
         Administrador admin;
-        String urlForward = "/";
+        String redirect = "/";
         switch (servletPath) {
-
+            case "/admin/publicar-materia":
+                System.out.println("Publicando materia");
+                request.setCharacterEncoding("UTF-8");
+                String nombreMateria = request.getParameter("nombre-materia");
+                char creditos = request.getParameter("creditos").toCharArray()[0];
+                Materia m = new Materia();
+                m.setNombre(nombreMateria);
+                m.setCreditos(creditos);
+                m.setRegistro(new Date());
+                sp = new ServicioPersistencia();
+                sp.persistirMateria(m);
+                sp.cerrarServicio();
+                redirect = "/jsp/admin/workspace.jsp";
+                break;
+            case "/admin/publicar-carrera":
+                System.out.println("Publicando carrera");
+                request.setCharacterEncoding("UTF-8");
+                String nombreCarrera = request.getParameter("nombre-carrera");
+                Carrera c = new Carrera();
+                c.setNombre(nombreCarrera);
+                sp = new ServicioPersistencia();
+                sp.persistirCarrera(c);
+                sp.cerrarServicio();
+                redirect = "/jsp/admin/workspace.jsp";
+                break;
             case "/login-admin":
                 String user = request.getParameter("user");
                 String pass = request.getParameter("pass");
@@ -136,7 +180,7 @@ public class ServletAdministrador extends HttpServlet {
                 admin = sp.buscarAdministradorPorId(user);
                 sp.cerrarServicio();
                 if (admin != null && admin.getPassword().equals(pass)) {
-                    urlForward = "/jsp/admin/workspace.jsp";
+                    redirect = "/jsp/admin/workspace.jsp";
                     break;
                 }
                 break;
@@ -168,14 +212,16 @@ public class ServletAdministrador extends HttpServlet {
                 admin.setPassword(password);
                 admin.setNumeroControl(noControl);
                 admin.setCorreo(email);
+                admin.setRegistro(new Date());
+                admin.setEstado("activo");
                 admin.setRol("administrador");
                 sp = new ServicioPersistencia();
                 sp.persisitirAdministrador(admin);
                 sp.cerrarServicio();
-                urlForward = "/jsp/admin/alta-admin.jsp";
+                redirect = "/jsp/admin/alta-admin.jsp";
                 break;
         }
-        dispatcher = request.getRequestDispatcher(urlForward);
+        dispatcher = request.getRequestDispatcher(redirect);
         dispatcher.forward(request, response);
     }
 

@@ -64,4 +64,14 @@ class ComentarioJPAImpl
         return results;
     }
 
+    @Override
+    public List<Comentario> buscarNoCensuradosPorProfesor(int idMaestro) {
+        TypedQuery<Comentario> query
+                = getEntityManager()
+                .createNamedQuery("Comentario.findNotCensoredForProfessor", Comentario.class);
+        query.setParameter("idMaestro", idMaestro);
+        List<Comentario> results = query.getResultList();
+        return results;
+    }
+
 }

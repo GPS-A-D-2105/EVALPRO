@@ -1,0 +1,43 @@
+﻿ table{
+     margin-left:20px;
+     padding-top:40px;
+     width:auto;
+     height:auto;
+ }
+
+ td input{
+         width:214px;
+         height:29px;
+ }        
+
+ td{
+    padding-bottom:20px;
+     padding-right:10px;
+     font-family:Arial;
+     color:white;
+     font-size:16px;
+ }
+
+ #color{
+     margin-left:268px;
+     margin-top:45px;
+     background-color:#13A89E;
+     width:374px;
+     height:278px;
+ }
+
+#boton {
+    margin-top: 30px;
+    margin-left: 220px;
+    width: 95px;
+    height: 41px;
+    background-color: #0B9444;
+    color: white;
+    text-align: center;
+    font-family: Arial;
+    font-style: italic;
+    font-weight: bold;
+    border-color: white;
+ border:solid;
+border-width:1px;
+         }

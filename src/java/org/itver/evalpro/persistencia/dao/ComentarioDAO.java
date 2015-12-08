@@ -29,4 +29,5 @@ public interface ComentarioDAO extends DataAccessObject<Comentario, Integer>{
     List<Comentario> buscarPorEstado(Comentario.Estado estado);
     List<Comentario> buscarComentsProfsEstado(int idMaestro, 
                                               Comentario.Estado estado);
+    List<Comentario> buscarNoCensuradosPorProfesor(int idMaestro);
 }

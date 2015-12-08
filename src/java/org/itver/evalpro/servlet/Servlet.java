@@ -18,18 +18,21 @@ package org.itver.evalpro.servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Date;
 import java.util.List;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.itver.evalpro.mail.Correo;
+import org.itver.evalpro.mail.Usuario;
 import org.itver.evalpro.persistencia.dao.dto.Carrera;
 import org.itver.evalpro.persistencia.dao.dto.Comentario;
 import org.itver.evalpro.persistencia.dao.dto.Maestro;
 import org.itver.evalpro.persistencia.dao.dto.Materia;
-import org.itver.evalpro.persistencia.dao.servicios.ServicioPersistencia;
-import org.jboss.logging.Logger;
+import org.itver.evalpro.persistencia.dao.dto.Reseña;
+import org.itver.evalpro.persistencia.servicio.ServicioPersistencia;
 
 /**
  *
@@ -93,20 +96,24 @@ public class Servlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        checkIfAdmin(request, response);
         String contextPath = request.getServletPath();
         System.out.println("Atendiendo petición http mediante método GET");
         System.out.println(request.getRequestURI());
         RequestDispatcher dispatcher = null;
         ServicioPersistencia sp;
+        String redirect = "asd";
         switch (contextPath) {
+            case "/welcome":
+                redirect = "/jsp/index.jsp";
+                break;
             case "/carrera":
                 System.out.println("Despachando petición de /carrera");
                 List<Carrera> carreras = new ServicioPersistencia().buscarCarreras();
                 System.out.println("Carreras consultadas");
                 request.setAttribute("listaCarreras", carreras);
-                dispatcher = request.getRequestDispatcher("/jsp/carreras.jsp");
+                redirect = "/jsp/carreras.jsp";
                 break;
-
             case "/materia":
                 System.out.println("Despachando petición de /materia");
                 List<Materia> listaMaterias;
@@ -121,13 +128,13 @@ public class Servlet extends HttpServlet {
                 sp.cerrarServicio();
                 request.setAttribute("listaMaterias", listaMaterias);
                 System.out.println("Redireccionando a materias.jsp");
-                dispatcher = request.getRequestDispatcher("/jsp/materias.jsp");
+                redirect = "/jsp/materias.jsp";
                 break;
             case "/acerca":
-                dispatcher = request.getRequestDispatcher("/jsp/acerca.jsp");
+                redirect = "/jsp/acerca.jsp";
                 break;
             case "/admin":
-                dispatcher = request.getRequestDispatcher("/jsp/admin/login-admin.jsp");
+                redirect = "/jsp/admin/login-admin.jsp";
                 break;
             case "/profesor":
                 String sIdProf = request.getParameter("idMateria");
@@ -145,40 +152,37 @@ public class Servlet extends HttpServlet {
                 }
                 sp.cerrarServicio();
                 request.setAttribute("listaMaestros", listaMaestros);
-                dispatcher = request.getRequestDispatcher("/jsp/profesores.jsp");
+                redirect = "/jsp/profesores.jsp";
                 break;
-
             case "/profesor-info":
-
                 String nombreProfesor = request.getParameter("nombre");
                 String sIdMaestro = request.getParameter("id");
                 int idMaestro = Integer.parseInt(sIdMaestro);
                 sp = new ServicioPersistencia();
                 List<Materia> materiasImpartidas = sp.buscarMateriasPorMaestro(idMaestro);
-                List<Comentario> comentarios = sp.buscarComentariosPorMaestro(idMaestro);
-                sp.cerrarServicio();
-                double[] califs = {0, 0, 0};
 
-                for (Comentario comentario : comentarios) {
-                    califs[0] += comentario.getCalifAsist();
-                    califs[1] += comentario.getCalifDomi();
-                    califs[2] += comentario.getCalifCalid();
+                List<Comentario> comentarios = sp.buscarComentariosNoCensuradorPorProfesor(idMaestro);
+                sp.cerrarServicio();
+                int[] califs = {0, 0, 0};
+                if (comentarios.size() != 0) {
+                    for (Comentario comentario : comentarios) {
+                        califs[0] += comentario.getCalifAsist();
+                        califs[1] += comentario.getCalifDomi();
+                        califs[2] += comentario.getCalifCalid();
+                    }
+                    califs[0] /= comentarios.size();
+                    califs[1] /= comentarios.size();
+                    califs[2] /= comentarios.size();
                 }
-                califs[0] /= comentarios.size();
-                califs[1] /= comentarios.size();
-                califs[2] /= comentarios.size();
-                
+                request.setAttribute("idProfesor", sIdMaestro);
                 request.setAttribute("nombreProfesor", nombreProfesor);
                 request.setAttribute("materiasImpartidas", materiasImpartidas);
                 request.setAttribute("calificaciones", califs);
                 request.setAttribute("comentarios", comentarios);
-                dispatcher = request.getRequestDispatcher("/jsp/profesor-info.jsp");
+                redirect = "/jsp/profesor-info.jsp";
                 break;
-            default:
-                Logger.getLogger(Servlet.class).debug("No se encuentra el recurso solicitado");
-                processRequest(request, response);
-                return;
         }
+        dispatcher = request.getRequestDispatcher(redirect);
         dispatcher.forward(request, response);
     }
 
@@ -193,21 +197,78 @@ public class Servlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        checkIfAdmin(request, response);
         System.out.println("Atendiendo petición http mediante método POST");
         String contextPath = request.getServletPath();
         System.out.println("contextPath = " + contextPath);
-        RequestDispatcher dispatcher = null;
+        RequestDispatcher dispatcher;
+        ServicioPersistencia sp;
+        String redirect = "";
+        request.setCharacterEncoding("UTF-8");
         switch (contextPath) {
-            case "/comentario":
-                String usuario = request.getParameter("usuario");
-                String contenido = request.getParameter("contenido-comentario");
-                System.out.println("usuario = " + usuario);
-                System.out.println("contenido = " + contenido);
+            case "/publicar-comentario":
+                String autor,
+                 comentario,
+                 nombreProfesor,
+                 idProfesor;
+                int califAsistencia,
+                 califDominio,
+                 califCalidad;
+                autor = request.getParameter("comment-autor");
+                comentario = request.getParameter("comment-content");
+                califAsistencia = Integer.parseInt(request.getParameter("calif-asistencia"));
+                califCalidad = Integer.parseInt(request.getParameter("calif-calidad"));
+                califDominio = Integer.parseInt(request.getParameter("calif-dominio"));
+                nombreProfesor = request.getParameter("nombre-profesor");
+                idProfesor = request.getParameter("id-profesor");
+                System.out.println("autor = " + autor);
+                System.out.println("comentario = " + comentario);
+                System.out.println("califAsistencia = " + califAsistencia);
+                System.out.println("califDominio = " + califDominio);
+                System.out.println("califCalidad = " + califCalidad);
+                redirect = String.format("/evalpro/profesor-info?nombre=%s&id=%s", nombreProfesor, idProfesor);
+                System.out.println("redirect = " + redirect);
+                sp = new ServicioPersistencia();
+                Reseña reseña
+                        = sp.buscarReseñasPorIdMaestro(Integer.parseInt(idProfesor)).get(0);
+                Comentario c = new Comentario();
+                c.setUsuario(autor);
+                c.setContenido(comentario);
+                c.setEstado(Comentario.Estado.ESPERA.toString().toLowerCase());
+                c.setIdReseña(reseña);
+                c.setCalifDomi(califDominio);
+                c.setCalifAsist(califAsistencia);
+                c.setCalifCalid(califCalidad);
+                c.setRegistro(new Date());
+                sp.persisitirComentario(c);
+
+                Usuario admi = new Usuario("evalpro.itver@gmail.com", "evaluatec");
+                Correo correo = new Correo(admi);
+                String[] arregloDestinarios = {
+                    "androidfenix555@gmail.com",
+                    "vrebo.deg@gmail.com",
+                    "daniel_big3@hotmail.com"
+                };
+                String notificacion
+                        = String.format("Saludos Admin.\nHay un nuevo comentario en espera de revisión: \n\n \"%s\"",
+                                c.toString());
+                correo.enviarMensaje(arregloDestinarios, "EvalPro - Nuevo comentario publicado", notificacion);
+
+                response.sendRedirect(redirect);
                 break;
         }
-        dispatcher.forward(request, response);
+//        dispatcher = request.getRequestDispatcher(redirect);
+//        dispatcher.forward(request, response);
     }
 
+    protected void checkIfAdmin(HttpServletRequest request, HttpServletResponse response) {
+        if (request.isUserInRole("administrador")) {
+            request.setAttribute("isAdmin", 1);
+        }
+
+    }
+
+    //<editor-fold>
     /**
      * Returns a short description of the servlet.
      *

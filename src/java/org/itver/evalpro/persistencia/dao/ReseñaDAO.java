@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015 vrebo
+ * Copyright (C) 2015 Alfonso
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,24 +14,16 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.itver.evalpro.persistencia.dao.servicios;
+package org.itver.evalpro.persistencia.dao;
 
 import java.util.List;
-import org.itver.evalpro.persistencia.dao.dto.Comentario;
-import org.itver.evalpro.persistencia.dao.dto.Maestro;
+import org.itver.evalpro.persistencia.dao.dto.Reseña;
 
 /**
  *
- * @author vrebo
+ * @author Alfonso
  */
-public interface ServicioPersistenciaMaestro{
-     
-    boolean persistirMaestro(Maestro m);
-    boolean actualizarMaestro(Maestro m);
-    boolean eliminarMaestro(Maestro m);
-    Maestro buscarMaestroPorId(int id);
-    List<Maestro> buscarMaestros();
-    List<Maestro> buscarMaestrosPorRango(int offset, int limite);
-    List<Maestro> buscarMaestrosPorMateria(int idMateria);
-    List<Maestro> buscarMaestrosPorEstadoComentario(Comentario.Estado estado);
+public interface ReseñaDAO extends DataAccessObject<Reseña,Integer>{
+    
+    List<Reseña> buscarPorIdMaestro(int idMaestro);
 }

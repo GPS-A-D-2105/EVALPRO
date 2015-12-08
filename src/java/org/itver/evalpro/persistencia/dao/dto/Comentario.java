@@ -17,6 +17,7 @@
 package org.itver.evalpro.persistencia.dao.dto;
 
 import java.io.Serializable;
+import java.util.Calendar;
 import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Entity;
@@ -52,15 +53,21 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Comentario.findByCalifDomi", query = "SELECT c FROM Comentario c WHERE c.califDomi = :califDomi"),
     @NamedQuery(name = "Comentario.findByCalifCalid", query = "SELECT c FROM Comentario c WHERE c.califCalid = :califCalid"),
     @NamedQuery(name = "Comentario.findByIdMaestro", query = "SELECT c FROM Comentario c, Reseña r WHERE c.idReseña.idReseña = r.idReseña AND r.idMaestro.idMaestro = :idMaestro "),
-    @NamedQuery(name = "Comentario.findByEstado", 
+    @NamedQuery(name = "Comentario.findByEstado",
             query = "SELECT c FROM Comentario c "
-                    + "WHERE c.estado = :estado "
-                    + "ORDER BY c.registro DESC"),
-    @NamedQuery(name = "Comentario.findByEstadoDeProf", 
+            + "WHERE c.estado = :estado "
+            + "ORDER BY c.registro DESC"),
+    @NamedQuery(name = "Comentario.findByEstadoDeProf",
             query = "SELECT c FROM Reseña r, Comentario c "
-                    + "WHERE r.idMaestro.idMaestro = :idMaestro "
-                    + "AND r.idReseña = c.idReseña.idReseña "
-                    + "AND c.estado = :estado ORDER BY c.registro DESC")
+            + "WHERE r.idMaestro.idMaestro = :idMaestro "
+            + "AND r.idReseña = c.idReseña.idReseña "
+            + "AND c.estado = :estado ORDER BY c.registro DESC"),
+    @NamedQuery(name = "Comentario.findNotCensoredForProfessor",
+            query = "SELECT c FROM Comentario c, Reseña r "
+            + "WHERE c.idReseña.idReseña = r.idReseña "
+            + "AND r.idMaestro.idMaestro = :idMaestro "
+            + "AND (c.estado = 'aprobado' OR c.estado = 'espera') "
+            + "ORDER BY c.registro DESC")
 })
 
 public class Comentario implements Serializable {
@@ -78,7 +85,6 @@ public class Comentario implements Serializable {
     @Size(min = 1, max = 140)
     private String contenido;
     @Basic(optional = false)
-    @NotNull
     @Temporal(TemporalType.TIMESTAMP)
     private Date registro;
     @Size(max = 20)
@@ -212,7 +218,10 @@ public class Comentario implements Serializable {
 
     @Override
     public String toString() {
-        return "org.itver.evalpro.persistencia.dao.dto.Comentario[ idComentario=" + idComentario + " ]";
+        String comentario = 
+                String.format("Emisor: %s\tFecha: %s\nComentario: %s",usuario, 
+                        registro, contenido);
+        return comentario;
     }
 
 }

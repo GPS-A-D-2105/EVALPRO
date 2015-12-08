@@ -1,0 +1,68 @@
+﻿table {
+    margin-left: 105px;
+    padding-top: 40px;
+    width: auto;
+    height: auto;
+}
+
+td input {
+    width: 214px;
+    height: 29px;
+}
+
+td {
+    padding-bottom: 10px;
+    padding-right: 10px;
+    font-family: Arial;
+    color: white;
+    font-size: 16px;
+}
+
+#color {
+    color:white;
+    margin-left: 115px;
+    margin-top: 40px;
+    background-color: #2BB673;
+    width: 680px;
+    height: 330px;
+}
+
+#boton {
+    margin-left: 395px;
+    width: 95px;
+    height: 41px;
+    background-color: #0B9444;
+    color: white;
+    text-align: center;
+    font-family: Arial;
+    font-style: italic;
+    font-weight: bold;
+    border-color: white;
+    border: solid;
+    border-width: 1px;
+}
+
+#botonesR {
+    margin-left:105px;
+}
+
+article#botonesR p {
+    color: white;
+    font-size: 16px;
+    display: inline-block;
+
+}
+
+article#botonesR div#radios{
+    display:inline-block;
+}
+article#botonesR div#radios input.radiob{
+    margin-top:10px;
+    margin-bottom:30px;
+    color:white;
+}
+  
+article#botonesR form    {
+       display:inline-block;
+       
+}

@@ -49,15 +49,15 @@ class GenericJPAImpl<E, Id> implements DataAccessObject<E, Id> {
     @Override
     public boolean persistir(E e) {
         EntityManager _em = getEntityManager();
-//        EntityTransaction et = _em.getTransaction();
-//        et.begin();
+        EntityTransaction et = _em.getTransaction();
+        et.begin();
         try {
             _em.persist(e);
-//            et.commit();
+            et.commit();
             return true;
         } catch (Exception ex) {
             ex.printStackTrace();
-//            et.rollback();
+            et.rollback();
             return false;
         }
     }
@@ -80,10 +80,11 @@ class GenericJPAImpl<E, Id> implements DataAccessObject<E, Id> {
 
     @Override
     public boolean eliminar(E e) {
+        System.out.println("Eliminando una entidad");
         EntityManager _em = getEntityManager();
         EntityTransaction et = _em.getTransaction();
         et.begin();
-
+        e = _em.merge(e);
         try {
             _em.remove(e);
             et.commit();
