@@ -17,7 +17,6 @@
 package org.itver.evalpro.servlet;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.Date;
 import java.util.List;
 import javax.servlet.RequestDispatcher;
@@ -27,6 +26,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.itver.evalpro.mail.Correo;
 import org.itver.evalpro.mail.Usuario;
+import org.itver.evalpro.persistencia.dao.dto.Administrador;
 import org.itver.evalpro.persistencia.dao.dto.Carrera;
 import org.itver.evalpro.persistencia.dao.dto.Comentario;
 import org.itver.evalpro.persistencia.dao.dto.Maestro;
@@ -39,51 +39,6 @@ import org.itver.evalpro.persistencia.servicio.ServicioPersistencia;
  * @author vrebo
  */
 public class Servlet extends HttpServlet {
-
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        System.out.println(request.getServletPath());
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet Servlet</title>");
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Login exitoso</h1>");
-            out.println("</body>");
-            out.println("</html>");
-        }
-    }
-
-    protected void badAuthentication(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        System.out.println(request.getServletPath());
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet Servlet</title>");
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Usuario inválido.</h1>");
-            out.println("</body>");
-            out.println("</html>");
-        }
-    }
 
     /**
      * Handles the HTTP <code>GET</code> method.
@@ -133,9 +88,6 @@ public class Servlet extends HttpServlet {
             case "/acerca":
                 redirect = "/jsp/acerca.jsp";
                 break;
-            case "/admin":
-                redirect = "/jsp/admin/login-admin.jsp";
-                break;
             case "/profesor":
                 String sIdProf = request.getParameter("idMateria");
                 List<Maestro> listaMaestros;
@@ -164,7 +116,7 @@ public class Servlet extends HttpServlet {
                 List<Comentario> comentarios = sp.buscarComentariosNoCensuradorPorProfesor(idMaestro);
                 sp.cerrarServicio();
                 int[] califs = {0, 0, 0};
-                if (comentarios.size() != 0) {
+                if (!comentarios.isEmpty()) {
                     for (Comentario comentario : comentarios) {
                         califs[0] += comentario.getCalifAsist();
                         califs[1] += comentario.getCalifDomi();
@@ -242,18 +194,22 @@ public class Servlet extends HttpServlet {
                 c.setRegistro(new Date());
                 sp.persisitirComentario(c);
 
+                List<Administrador> admins = sp.buscarAdministradores();
+                String[] destinatarios = new String[admins.size()];
+                for (int i = 0; i < destinatarios.length; i++) {
+                    destinatarios[i] = admins.get(i).getCorreo();
+                }
+
                 Usuario admi = new Usuario("evalpro.itver@gmail.com", "evaluatec");
                 Correo correo = new Correo(admi);
-                String[] arregloDestinarios = {
-                    "androidfenix555@gmail.com",
-                    "vrebo.deg@gmail.com",
-                    "daniel_big3@hotmail.com"
-                };
                 String notificacion
                         = String.format("Saludos Admin.\nHay un nuevo comentario en espera de revisión: \n\n \"%s\"",
                                 c.toString());
-                correo.enviarMensaje(arregloDestinarios, "EvalPro - Nuevo comentario publicado", notificacion);
+                correo.enviarMensaje(destinatarios, 
+                        "EvalPro - Nuevo comentario publicado", 
+                        notificacion);
 
+                sp.cerrarServicio();
                 response.sendRedirect(redirect);
                 break;
         }

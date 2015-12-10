@@ -13,6 +13,8 @@
         <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"/>
         <link href="${css}/main.css" rel="stylesheet" />
         <link href="${css}/nav-bar.css" rel="stylesheet"/>
+        <link href="${css}/galeria.css" rel="stylesheet"/>
+        <link href="${css}/fonts.css" rel="stylesheet"/>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
         <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>       
     </head>
@@ -23,20 +25,18 @@
                 <h1>Bienvenidos</h1>
                 <div class="main">
                     <div class="slides">
-                        <img src="${root}/imagenes/slider/paisaje1.png"/>
-                        <img src="${root}/imagenes/slider/paisaje2.png"/>
-                        <img src="${root}/imagenes/slider/paisaje3.png"/>
-                        <img src="${root}/imagenes/slider/paisaje4.png"/>
+                        <img src="${images}/elefante.jpg"/>
+                        <img src="${images}/tren.jpg"/>
+                        <img src="${images}/juego.jpg"/>
                     </div>
                 </div>
                 <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
-                <script src="../js/jquery.slides.js"></script>
+                <script src="${js}/jquery.slides.js"></script>
                 <script>
-
                     $(function () {
                         $(".slides").slidesjs({
                             play: {
-                                active: true,
+                                active: false,
                                 // [boolean] Generate the play and stop buttons.
                                 // You cannot use your own buttons. Sorry.
                                 effect: "slide",
@@ -57,7 +57,7 @@
 
                 </script>
                 <h1><font color="8CC63F" size=10>Ranking de Profesores mejor calificados</font></h1>
-                <script src="${root}/js/Chart.js"></script>
+                <script src="${js}/Chart.js"></script>
                 <div id="canvas-holder">
                     <canvas id="chart-area3" width="200" height="100"></canvas>
                 </div>

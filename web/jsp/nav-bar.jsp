@@ -10,13 +10,13 @@
 <div id="nav-bar">
     <div class="container-fluid" id="header">
         <div class="row" id="top">
-            <div class="col-md-3 logo" style="float: left;">
+            <div class="col-md-7 logo" style="float: left;">
                 <div class="center">
                     <img src="${images}/EvalPro.png" alt="EVALPRO" />
-                    <p>Aquí va un Slogan</p>
+                    <p>Por una Docencia de Calidad</p>
                 </div>
             </div>
-            <div class="col-md-4" style="float: right;">
+            <div class="col-md-5" style="float: right;">
                 <table style="height: 30px; text-align: center;">
                     <tr>
                         <td style="padding-bottom: 10px;">
