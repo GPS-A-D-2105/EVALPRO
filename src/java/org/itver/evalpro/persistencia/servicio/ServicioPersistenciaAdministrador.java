@@ -14,21 +14,21 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.itver.evalpro.persistencia.dao.servicios;
+package org.itver.evalpro.persistencia.servicio;
 
 import java.util.List;
-import org.itver.evalpro.persistencia.dao.dto.Carrera;
+import org.itver.evalpro.persistencia.dao.dto.Administrador;
 
 /**
  *
  * @author vrebo
  */
-public interface ServicioPersistenciaCarrera {
+public interface ServicioPersistenciaAdministrador {
     
-    boolean persistirCarrera(Carrera c);
-    boolean actualizarCarrera(Carrera c);
-    boolean eliminarCarrra(Carrera c);
-    Carrera buscarCarreraId(int id);
-    List<Carrera> buscarCarreras();
-    List<Carrera> buscarCarrerasPorRango(int offset, int limite);
+    boolean persisitirAdministrador(Administrador a);
+    boolean actualizarAdministrador(Administrador a);
+    boolean eliminarAdministrador(Administrador a);
+    Administrador buscarAdministradorPorId(String id);
+    List<Administrador> buscarAdministradores();
+    
 }

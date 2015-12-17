@@ -1,0 +1,246 @@
+﻿/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 17-nov-2015, 21:53:35
+    Author     : vrebo
+*/
+
+
+
+h1{
+    margin-top:20px;
+    color:#2BB673;
+    text-align:center;
+    font-size:32px;
+    font-weight:bold;
+}
+
+div#divicion{
+    margin-top:40px;
+}
+div#orden{
+    width:435px;
+    height:900px;
+    display:inline-block;
+    background-color:purple;
+}
+
+
+section#cmnt-box{
+    width:421px;
+    height:auto;
+    display:inline-block;
+    margin-right:40px;
+    float:right;
+}
+
+section#cmnt-box header{
+    background-color: #2BB673;
+    color: white;
+    width: 450px;
+    height: 60px;
+    margin: 0px;
+    line-height: 60px;
+    font-weight: bold;
+}
+section#cmnt-box header h2 {
+    color:white;
+    text-align:center;
+}
+
+section#section-cmnts{
+    width:380px;
+    background-color: #D9D9D9;
+    height: 400px;
+    margin-bottom: 15px;
+    padding: 30px 40px 30px 30px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+div#botones{
+    margin-bottom:20px;
+}
+
+div#botones input.boton {
+    width:155px;
+    height:45px;
+    color:white;
+    margin-left:15px;
+    font-size:24px;
+    font-weight:bold;
+    font-family:Arial;
+    border-radius:5px;
+    border-width:0px;
+}
+
+#azul{
+    background-color:#0F75BC;
+}
+#verde{
+    background-color:#2BB673;
+}
+
+
+
+section#section-post-cmnt{
+
+    background-color: #D9D9D9;
+
+    height: 170px; 
+    width:100%;
+    /*    height: 100px;*/
+    padding: 15px;
+}
+
+section#section-pts {
+
+    margin-top:0px;
+    background-color: #D9D9D9;
+    max-height: 250px;
+    min-height: 250px; 
+    width:100%;
+    /*    height: 100px;*/
+    padding: 15px;
+}
+
+section#section-post-cmnt input[type=text]{
+    min-width: 50%;
+    width: 30%;
+    height: 20px;
+    border: #D9D9D9;
+}
+
+section#section-post-cmnt input[type=submit]{
+    min-width: 30%;
+    height: 30px;
+    border-radius: 5px;
+    border: #0F75BC;
+    background-color: #0F75BC;
+    color: white;
+    font-weight: bold;
+    position: relative;
+    left: 33%;
+
+}
+
+section#section-post-cmnt textarea{
+
+    max-width: 95%;
+    width: 95%;
+    height: 150px;
+    min-height: 150px;
+    border: #D9D9D9;
+}
+
+article.comment{
+    background-color: white;
+    padding: 15px;
+    margin-bottom: 30px;
+}
+
+article.comment table{    
+    height: fit-content;
+}
+
+td.user{
+    color: #3A75BC;
+    text-align: left;
+    font-weight: bold;
+}
+
+td.date{
+    color: #8CC63F;
+    font-weight: bold;
+    text-align: right;
+}
+
+td.content{
+    padding: 30px 20px 20px 6px;
+    font-size: 16px;
+    text-align: justify;
+    /*Usar solo en caso de verdadera necesidad*/
+    /*word-break: break-all;*/
+    word-wrap: break-word;
+}
+
+
+/*Estilos para la caja de evaluación*/
+section#section-pts td p{
+    font-size:12px;
+    color:white;
+    font-family:Arial;
+    font-weight:bold;
+}
+
+section#section-pts div#instruccion {
+    width:400px;
+    height:50px;
+    background-color:#2BB673;
+    margin-left:10px;
+}
+
+section#section-pts div#instruccion h5{
+    padding-top:5px;
+    margin-top:10px;
+    margin-left:15px;
+    text-align:center;
+    font-size:18px;
+    color:white;
+    font-family:Arial;
+    font-weight:bold;
+}
+
+section#section-pts td{
+    padding-left:10px;
+}
+
+section#section-pts td input{
+    width:25px;
+    height:25px;
+    color:black;
+}
+
+section#section-pts div#tresdivs{
+    margin-top:30px;
+}
+
+section#section-pts div#tresdivs div {
+    border-radius:10px;
+    width: 120px;
+    height:65px;
+    margin-left:8px;
+}
+
+section#section-pts div#tresdivs div#A{
+    background-color:#8CC63F;
+    display:inline-block;
+}
+section#section-pts div#tresdivs div#DT{
+    background-color:#13A89E;
+    display:inline-block;
+}
+section#section-pts div#tresdivs div#CE{
+    background-color:#0F75BC;
+    margin-right:8px;
+    float:right;
+    display:inline-block;
+}
+
+section#section-pts input#enviar{
+    background-color:#2BB673;
+    width:85px;
+    height:35px;
+    margin-left:320px;
+    margin-top:30px;
+    border-radius:5px;
+    color:white;
+    font-weight:bold;
+    font-family:Arial;
+}
+table{
+    margin-top:20px;
+    margin-right:10px;
+}

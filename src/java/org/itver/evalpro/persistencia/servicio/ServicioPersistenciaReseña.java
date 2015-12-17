@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015 vrebo
+ * Copyright (C) 2015 Alfonso
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,21 +14,15 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.itver.evalpro.persistencia.dao.servicios;
+package org.itver.evalpro.persistencia.servicio;
 
 import java.util.List;
-import org.itver.evalpro.persistencia.dao.dto.Administrador;
+import org.itver.evalpro.persistencia.dao.dto.Reseña;
 
 /**
  *
- * @author vrebo
+ * @author Alfonso
  */
-public interface ServicioPersistenciaAdministrador {
-    
-    boolean persisitirAdministrador(Administrador a);
-    boolean actualizarAdministrador(Administrador a);
-    boolean eliminarAdministrador(Administrador a);
-    Administrador buscarAdministradorPorId(String id);
-    List<Administrador> buscarAdministradores();
-    
+public interface ServicioPersistenciaReseña {
+    List<Reseña> buscarReseñasPorIdMaestro(int idMaestro);
 }

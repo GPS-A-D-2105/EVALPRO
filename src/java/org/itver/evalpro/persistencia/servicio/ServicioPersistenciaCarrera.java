@@ -14,23 +14,21 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.itver.evalpro.persistencia.dao.servicios;
+package org.itver.evalpro.persistencia.servicio;
 
 import java.util.List;
-import org.itver.evalpro.persistencia.dao.dto.Materia;
+import org.itver.evalpro.persistencia.dao.dto.Carrera;
 
 /**
  *
  * @author vrebo
  */
-public interface ServicioPersistenciaMateria {
+public interface ServicioPersistenciaCarrera {
     
-    boolean persistirMateria(Materia m);
-    boolean actualizarMateria(Materia m);
-    boolean eliminarMateria(Materia m);
-    Materia buscarMateriaPorId(int id);
-    List<Materia> buscarMaterias();
-    List<Materia> buscarMateriasPorRango(int offset, int limite);
-    List<Materia> buscarMateriasPorMaestro(int idMaestro);
-    List<Materia> buscarMateriasPorCarrera(int idCarrera);
+    boolean persistirCarrera(Carrera c);
+    boolean actualizarCarrera(Carrera c);
+    boolean eliminarCarrra(Carrera c);
+    Carrera buscarCarreraId(int id);
+    List<Carrera> buscarCarreras();
+    List<Carrera> buscarCarrerasPorRango(int offset, int limite);
 }

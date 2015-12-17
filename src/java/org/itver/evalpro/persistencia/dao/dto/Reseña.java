@@ -35,7 +35,9 @@ import javax.persistence.NamedQuery;
 @Entity
 @NamedQueries({
     @NamedQuery(name = "Rese\u00f1a.findAll", query = "SELECT r FROM Rese\u00f1a r"),
-    @NamedQuery(name = "Rese\u00f1a.findByIdRese\u00f1a", query = "SELECT r FROM Rese\u00f1a r WHERE r.idRese\u00f1a = :idRese\u00f1a")})
+    @NamedQuery(name = "Rese\u00f1a.findByIdRese\u00f1a", query = "SELECT r FROM Rese\u00f1a r WHERE r.idRese\u00f1a = :idRese\u00f1a"),
+    @NamedQuery(name = "Reseña.findByIdMaestro", query = "SELECT r FROM Reseña r WHERE r.idMaestro.idMaestro = :idMaestro")
+})
 public class Reseña implements Serializable {
 
     private static final long serialVersionUID = 1L;

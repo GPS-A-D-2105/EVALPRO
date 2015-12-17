@@ -20,3 +20,12 @@ div#contenido h1, div#contenido h2{
     font-size:32px;
     padding-top:60px;
 }
+
+main p{
+    text-align: center;
+    text-justify: distribute;
+    color: #333333;
+    font-size: 18px;
+    max-width:85%;
+    margin: auto;
+}

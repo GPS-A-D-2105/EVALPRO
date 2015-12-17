@@ -10,18 +10,21 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <link href="${root}/css/principal.css" rel="stylesheet"/>
-        <link href="${root}/css/registro-admin.css" rel="stylesheet"/>
-        <link href="${root}/css/header.css" rel="stylesheet"/>
-        <title>JSP Page</title>
+        <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"/>
+        <link href="${css}/main.css" rel="stylesheet"/>
+        <link href="${css}/nav-bar.css" rel="stylesheet"/>
+        <link href="${css}/registro-admin.css" rel="stylesheet"/>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+        <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>   
+        <title>EvalPro - Alta administrador</title>
     </head>
     <body>
-        <%@include file="../header.jsp" %>
+        <%@include file="../nav-bar.jsp"%>
         <div id="form-alta-admin">
             <header>
                 <h1>ALTA DE ADMINISTRADORES</h1>
             </header>
-            <form action="${root}/admin/alta-admin" method="POST">
+            <form action="${admin}/alta-admin" method="POST">
                 <table>
 <!--                    <tr>
                         <td class="label"><label>NOMBRE DE USUARIO:</label></td>

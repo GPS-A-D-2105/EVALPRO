@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app version="3.1" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
     <welcome-file-list>
-        <welcome-file>jsp/index.jsp</welcome-file>
+        <welcome-file>welcome</welcome-file>
     </welcome-file-list>
     <servlet>
         <servlet-name>Servlet</servlet-name>
@@ -14,24 +14,29 @@
     <servlet-mapping>
         <servlet-name>Servlet</servlet-name>
         <!--Endpoints para las funciones comunes del sistema-->
+        <url-pattern>/welcome</url-pattern>
         <url-pattern>/materia</url-pattern>
         <url-pattern>/acerca</url-pattern>
         <url-pattern>/carrera</url-pattern>
         <url-pattern>/profesor</url-pattern>
         <url-pattern>/profesor-info</url-pattern>
-        <url-pattern>/comentario</url-pattern>
+        <url-pattern>/publicar-comentario</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>ServletAdmin</servlet-name>
         <!--Endpoints para las funciones de administrador-->
         <url-pattern>/admin</url-pattern>
-        <url-pattern>/admin/login-admin</url-pattern>
+        <url-pattern>/admin/logout</url-pattern>
         <url-pattern>/admin/alta-admin</url-pattern>
+        <url-pattern>/admin/alta-carrera</url-pattern>
+        <url-pattern>/admin/alta-materia</url-pattern>
         <url-pattern>/admin/gestion-admin</url-pattern>
         <url-pattern>/admin/baja-admin</url-pattern>
         <url-pattern>/admin/gestion-comentarios</url-pattern>
         <url-pattern>/admin/revisar-comentarios</url-pattern>
         <url-pattern>/admin/revisar-comentarios-prof</url-pattern>
+        <url-pattern>/admin/publicar-carrera</url-pattern>
+        <url-pattern>/admin/publicar-materia</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
@@ -51,8 +56,12 @@
         </auth-constraint>
     </security-constraint>
     <login-config>
-        <auth-method>BASIC</auth-method>
+        <auth-method>FORM</auth-method>
         <realm-name>evalproRealm</realm-name>
+        <form-login-config>
+            <form-login-page>/jsp/admin/login-admin.jsp</form-login-page>
+            <form-error-page>/jsp/admin/login-admin.jsp</form-error-page>
+        </form-login-config>
     </login-config>
     <security-role>
         <description/>
