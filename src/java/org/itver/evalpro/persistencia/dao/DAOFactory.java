@@ -56,4 +56,9 @@ public interface DAOFactory {
      * @return instancia de AdministradorDAO
      */
     AdministradorDAO getAdministradorDAO();
+    
+    /**
+     * @return intancia de ReseñaDAO
+     */
+    ReseñaDAO getReseñaDAO();
 }

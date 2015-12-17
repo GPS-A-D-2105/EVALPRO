@@ -14,24 +14,23 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.itver.evalpro.persistencia.dao.servicios;
+package org.itver.evalpro.persistencia.servicio;
 
 import java.util.List;
-import org.itver.evalpro.persistencia.dao.dto.Comentario;
+import org.itver.evalpro.persistencia.dao.dto.Materia;
 
 /**
  *
  * @author vrebo
  */
-public interface ServicioPersistenciaComentario {
+public interface ServicioPersistenciaMateria {
     
-    boolean persisitirComentario(Comentario c);
-    boolean actualizarComentario(Comentario c);
-    boolean eliminarComentario(Comentario c);
-    Comentario buscarComentarioPorId(int id);
-    List<Comentario> buscarComentarios();
-    List<Comentario> buscarComentariosPorRango(int offset,int limite);
-    List<Comentario> buscarComentariosPorMaestro(int idMaestro);
-    List<Comentario> buscarComentariosPorEstado(Comentario.Estado estado);
-    List<Comentario> buscarComentariosPorEstadoDeProf(int idMaestro, Comentario.Estado estado);
+    boolean persistirMateria(Materia m);
+    boolean actualizarMateria(Materia m);
+    boolean eliminarMateria(Materia m);
+    Materia buscarMateriaPorId(int id);
+    List<Materia> buscarMaterias();
+    List<Materia> buscarMateriasPorRango(int offset, int limite);
+    List<Materia> buscarMateriasPorMaestro(int idMaestro);
+    List<Materia> buscarMateriasPorCarrera(int idCarrera);
 }

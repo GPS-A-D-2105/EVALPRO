@@ -51,7 +51,11 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Maestro.findByG\u00e9nero", query = "SELECT m FROM Maestro m WHERE m.g\u00e9nero = :g\u00e9nero"),
     @NamedQuery(name = "Maestro.findByMateria",
             query = "SELECT m FROM Maestro m, CarreraMateria cm, Materia ma, Reseña r WHERE m.idMaestro = r.idMaestro.idMaestro AND r.idCarreraMateria.idCarreraMateria = cm.idCarreraMateria AND cm.idMateria.idMateria = ma.idMateria AND ma.idMateria = :idMateria"),
-    @NamedQuery(name = "Maestro.findByEstadoComentario", query = "SELECT DISTINCT m FROM Maestro m, Reseña r, Comentario c WHERE m.idMaestro = r.idMaestro.idMaestro AND r.idReseña = c.idReseña.idReseña AND c.estado = :estado")
+    @NamedQuery(name = "Maestro.findByEstadoComentario", 
+            query = "SELECT DISTINCT m FROM Maestro m, Reseña r, Comentario c "
+                    + "WHERE m.idMaestro = r.idMaestro.idMaestro "
+                    + "AND r.idReseña = c.idReseña.idReseña "
+                    + "AND c.estado = :estado")
 
 })
 public class Maestro implements Serializable {

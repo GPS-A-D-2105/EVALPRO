@@ -26,8 +26,7 @@ import org.itver.evalpro.persistencia.dao.dto.Comentario;
  * @author vrebo
  */
 class ComentarioJPAImpl
-        extends GenericJPAImpl<Comentario, Integer>
-        implements ComentarioDAO {
+        extends GenericJPAImpl<Comentario, Integer> implements ComentarioDAO {
 
     public ComentarioJPAImpl() {
         super(Comentario.class);
@@ -61,6 +60,16 @@ class ComentarioJPAImpl
                 .createNamedQuery("Comentario.findByEstadoDeProf", Comentario.class);
         query.setParameter("idMaestro", idMaestro);
         query.setParameter("estado", estado.toString().toLowerCase());
+        List<Comentario> results = query.getResultList();
+        return results;
+    }
+
+    @Override
+    public List<Comentario> buscarNoCensuradosPorProfesor(int idMaestro) {
+        TypedQuery<Comentario> query
+                = getEntityManager()
+                .createNamedQuery("Comentario.findNotCensoredForProfessor", Comentario.class);
+        query.setParameter("idMaestro", idMaestro);
         List<Comentario> results = query.getResultList();
         return results;
     }

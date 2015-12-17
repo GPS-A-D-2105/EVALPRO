@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.itver.evalpro.persistencia.dao.servicios;
+package org.itver.evalpro.persistencia.servicio;
 
 import java.util.List;
 import org.itver.evalpro.persistencia.dao.AbstractFactory;
@@ -24,11 +24,13 @@ import org.itver.evalpro.persistencia.dao.ComentarioDAO;
 import org.itver.evalpro.persistencia.dao.DAOFactory;
 import org.itver.evalpro.persistencia.dao.MaestroDAO;
 import org.itver.evalpro.persistencia.dao.MateriaDAO;
+import org.itver.evalpro.persistencia.dao.ReseñaDAO;
 import org.itver.evalpro.persistencia.dao.dto.Administrador;
 import org.itver.evalpro.persistencia.dao.dto.Carrera;
 import org.itver.evalpro.persistencia.dao.dto.Comentario;
 import org.itver.evalpro.persistencia.dao.dto.Maestro;
 import org.itver.evalpro.persistencia.dao.dto.Materia;
+import org.itver.evalpro.persistencia.dao.dto.Reseña;
 
 /**
  *
@@ -39,13 +41,15 @@ public class ServicioPersistencia
         ServicioPersistenciaMateria,
         ServicioPersistenciaComentario,
         ServicioPersistenciaCarrera,
-        ServicioPersistenciaAdministrador{
+        ServicioPersistenciaAdministrador,
+        ServicioPersistenciaReseña{
 
     private final ComentarioDAO cmntDAO;
     private final CarreraDAO crraDAO;
     private final MaestroDAO mtroDAO;
     private final MateriaDAO mtraDAO;
     private final AdministradorDAO admnDAO;
+    private final ReseñaDAO reseñaDAO;
 
     public ServicioPersistencia() {
         DAOFactory factory = AbstractFactory.getDAOFactory();
@@ -54,6 +58,7 @@ public class ServicioPersistencia
         mtraDAO = factory.getMateriaDAO();
         admnDAO = factory.getAdministradorDAO();
         mtroDAO = factory.getMaestroDAO();
+        reseñaDAO = factory.getReseñaDAO();
     }
 
     @Override
@@ -181,6 +186,12 @@ public class ServicioPersistencia
         return cmntDAO.buscarComentsProfsEstado(idMaestro, estado);
     }
     
+    
+    @Override
+    public List<Comentario> buscarComentariosNoCensuradorPorProfesor(int idMaestro) {
+        return cmntDAO.buscarNoCensuradosPorProfesor(idMaestro);
+    }
+    
     @Override
     public boolean persistirCarrera(Carrera c) {
         return crraDAO.persistir(c);
@@ -242,5 +253,12 @@ public class ServicioPersistencia
     @Override
     public List<Administrador> buscarAdministradores() {
         return admnDAO.buscarTodos();
+    }
+
+    
+    //SERVICIOS DE PERSISTENCIA DE RESEÑAS
+    @Override
+    public List<Reseña> buscarReseñasPorIdMaestro(int idMaestro) {
+        return reseñaDAO.buscarPorIdMaestro(idMaestro);
     }
 }

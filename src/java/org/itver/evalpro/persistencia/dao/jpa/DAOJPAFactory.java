@@ -22,6 +22,7 @@ import org.itver.evalpro.persistencia.dao.ComentarioDAO;
 import org.itver.evalpro.persistencia.dao.DAOFactory;
 import org.itver.evalpro.persistencia.dao.MaestroDAO;
 import org.itver.evalpro.persistencia.dao.MateriaDAO;
+import org.itver.evalpro.persistencia.dao.ReseñaDAO;
 
 /**
  * Clase encargada de crear instancias de los DAOs definidos en la API. No hay
@@ -67,6 +68,11 @@ public final class DAOJPAFactory implements DAOFactory {
     @Override
     public AdministradorDAO getAdministradorDAO() {
         return new AdministradorJPAImpl();
+    }
+
+    @Override
+    public ReseñaDAO getReseñaDAO() {
+        return new ReseñaJPAImpl();
     }
 
 }

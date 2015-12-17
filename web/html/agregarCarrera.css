@@ -1,0 +1,61 @@
+﻿
+
+   div#color input{
+     margin-top:25px;
+        margin-left:220px;
+         width:214px;
+         height:29px;
+ }   
+
+
+ #color{
+     color:white;
+     margin-left:126px;
+     margin-top:45px;
+     background-color:#13A89E;
+     width:681px;
+     height:327px;
+ }
+
+div#color input#boton {
+    margin-top: 10px;
+    margin-left: 280px;
+    width: 95px;
+    height: 41px;
+    background-color: #0B9444;
+    color: white;
+    text-align: center;
+    font-family: Arial;
+    font-style: italic;
+    font-weight: bold;
+    border-color: white;
+ border:solid;
+border-width:1px;
+         }
+div#color p{
+    margin-top:55px;
+}
+div#color   p#bonito,div#color p{
+    color:white;
+    text-align:center;
+    font-weight: bold;
+     font-family: Arial;
+     font-style: italic;
+}
+
+
+div#color p#bonito{
+    margin-top:20px;
+    
+    
+    
+}
+
+div#caja{
+     margin-left: 280px;
+     margin-top:10px;
+    background-color:#CCCCCC;
+    width:95px;
+    height:79px;
+    background-size:cover;
+}
